@@ -58,6 +58,8 @@
   <ItemGroup>
     <Compile Include="Model\BinaryThresholds.cs" />
     <Compile Include="Model\HsvFilter.cs" />
+    <Compile Include="Model\PaperColor.cs" />
+    <Compile Include="Service\ColumnDetection.cs" />
     <Compile Include="Service\HsvImage.cs" />
     <Compile Include="Service\PaperContourExtraction.cs" />
     <Compile Include="VCCChallenge.cs">

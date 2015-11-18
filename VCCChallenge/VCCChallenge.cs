@@ -18,6 +18,7 @@ namespace VCCChallenge
         private BinaryThresholds greenThresholds = new BinaryThresholds();
         private HsvImage hsvImage = new HsvImage();
         private PaperContourExtraction paperContourExtraction = new PaperContourExtraction();
+        private ColumnPaperColors columnDetection = new ColumnPaperColors();
 
         public VCCChallenge()
         {
@@ -133,6 +134,8 @@ namespace VCCChallenge
                 {
                     capturedImage.Draw(greenPaperContour.BoundingRectangle, new Bgr(Color.Blue), 5);
                 }
+
+                PaperColor[] columns = columnDetection.detectColumnPaperColors(capturedImage, yellowPaperContours, greenPaperContours);
 
                 this.CaptureImgBox.Image = capturedImage.Resize(this.CaptureImgBox.Width, this.CaptureImgBox.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
             }
