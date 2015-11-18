@@ -3,6 +3,7 @@
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
 using System.Windows.Forms;
@@ -16,6 +17,7 @@ namespace VCCChallenge
         private BinaryThresholds yellowThresholds = new BinaryThresholds();
         private BinaryThresholds greenThresholds = new BinaryThresholds();
         private HsvImage hsvImage = new HsvImage();
+        private PaperContourExtraction paperContourExtraction = new PaperContourExtraction();
 
         public VCCChallenge()
         {
@@ -119,6 +121,19 @@ namespace VCCChallenge
 
                 displayFilters(yellowFilter, greenFilter);
 
+                List<Contour<Point>> yellowPaperContours = this.paperContourExtraction.extractPaperContours(yellowFilter.CombinedFilter);
+                List<Contour<Point>> greenPaperContours = this.paperContourExtraction.extractPaperContours(greenFilter.CombinedFilter);
+
+                foreach(Contour<Point> yellowPaperContour in yellowPaperContours)
+                {
+                    capturedImage.Draw(yellowPaperContour.BoundingRectangle, new Bgr(Color.Red), 5);
+                }
+
+                foreach (Contour<Point> greenPaperContour in greenPaperContours)
+                {
+                    capturedImage.Draw(greenPaperContour.BoundingRectangle, new Bgr(Color.Blue), 5);
+                }
+
                 this.CaptureImgBox.Image = capturedImage.Resize(this.CaptureImgBox.Width, this.CaptureImgBox.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
             }
         }
@@ -147,8 +162,6 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.HueMin = this.yellowMinHueTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void yellowMaxHueTrack_Scroll(object sender, EventArgs e)
@@ -160,8 +173,6 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.HueMax = this.yellowMaxHueTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void yellowMinSatTrack_Scroll(object sender, EventArgs e)
@@ -173,8 +184,6 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.SatMin = this.yellowMinSatTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void yellowMaxSatTrack_Scroll(object sender, EventArgs e)
@@ -186,8 +195,6 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.SatMax = this.yellowMaxSatTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void yellowMinValTrack_Scroll(object sender, EventArgs e)
@@ -199,8 +206,6 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.ValMin = this.yellowMinValTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void yellowMaxValTrack_Scroll(object sender, EventArgs e)
@@ -212,8 +217,6 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.ValMax = this.yellowMaxValTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void greenMinHueTrack_Scroll(object sender, EventArgs e)
@@ -225,8 +228,6 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.HueMin = this.greenMinHueTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void greenMaxHueTrack_Scroll(object sender, EventArgs e)
@@ -238,8 +239,6 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.HueMax = this.greenMaxHueTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void greenMinSatTrack_Scroll(object sender, EventArgs e)
@@ -251,8 +250,6 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.SatMin = this.greenMinSatTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void greenMaxSatTrack_Scroll(object sender, EventArgs e)
@@ -264,8 +261,6 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.SatMax = this.greenMaxSatTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void greenMinValTrack_Scroll(object sender, EventArgs e)
@@ -277,8 +272,6 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.ValMin = this.greenMinValTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void greenMaxValTrack_Scroll(object sender, EventArgs e)
@@ -290,13 +283,14 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.ValMax = this.greenMaxValTrack.Value;
-
-            this.saveThresholds();
         }
 
         private void VCCChallenge_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.capture.Start();
+            this.capture.Stop();
+            this.capture.Dispose();
+
+            this.saveThresholds();
         }
     }
 }

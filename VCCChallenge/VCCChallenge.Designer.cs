@@ -424,6 +424,7 @@
             this.Controls.Add(this.GreenPaperGrp);
             this.Controls.Add(this.YellowPaperGrp);
             this.Name = "VCCChallenge";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "VCC Challenge";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.VCCChallenge_FormClosed);
             this.Load += new System.EventHandler(this.VCCChallenge_Load);
