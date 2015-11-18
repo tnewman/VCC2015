@@ -8,10 +8,10 @@ namespace LoCoMoCo
 {
     public class LoCoMoCo
     {
-        const byte STOP = 0x7F;
-        const byte FLOAT = 0x0F;
-        const byte FORWARD = 0x6f;
-        const byte BACKWARD = 0x5F;
+        public const byte STOP = 0x7F;
+        public const byte FLOAT = 0x0F;
+        public const byte FORWARD = 0x6f;
+        public const byte BACKWARD = 0x5F;
         SerialPort _serialPort;
 
         public LoCoMoCo(String port)
