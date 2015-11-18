@@ -21,7 +21,12 @@ namespace VCCChallenge
                 {
                     if((contour.BoundingRectangle.Height * contour.BoundingRectangle.Width) >= (binaryImage.Height * binaryImage.Width * CONTOUR_AREA_PERCENTAGE_THRESHOLD))
                     {
-                        paperContours.Add(contour);
+                        int xMidPoint = contour.BoundingRectangle.X + (contour.BoundingRectangle.Width / 2);
+
+                        if(xMidPoint >= binaryImage.Width * 0.25 && xMidPoint <= binaryImage.Width * 0.75)
+                        {
+                            paperContours.Add(contour);
+                        }
                     }
                 }
             }
