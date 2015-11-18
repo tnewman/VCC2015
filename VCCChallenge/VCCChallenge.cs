@@ -3,6 +3,7 @@
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
+using System.Configuration;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,6 +11,7 @@ namespace VCCChallenge
 {
     public partial class VCCChallenge : Form
     {
+        private Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         private Capture capture = new Capture();
         private BinaryThresholds yellowThresholds = new BinaryThresholds();
         private BinaryThresholds greenThresholds = new BinaryThresholds();
@@ -22,8 +24,88 @@ namespace VCCChallenge
 
         private void VCCChallenge_Load(object sender, EventArgs e)
         {
+            this.loadThresholds();
+            this.setTrackbarsToThresholds();
+            this.saveThresholds();
+
             this.capture.ImageGrabbed += this.DisplayCaptured;
             this.capture.Start();
+        }
+
+        private void loadThresholds()
+        {
+            this.yellowThresholds.HueMin = readThresholdOrDefault("YellowHueMin");
+            this.yellowThresholds.HueMax = readThresholdOrDefault("YellowHueMax");
+            this.yellowThresholds.SatMin = readThresholdOrDefault("YellowSatMin");
+            this.yellowThresholds.SatMax = readThresholdOrDefault("YellowSatMax");
+            this.yellowThresholds.ValMin = readThresholdOrDefault("YellowValMin");
+            this.yellowThresholds.ValMax = readThresholdOrDefault("YellowValMax");
+
+            this.greenThresholds.HueMin = readThresholdOrDefault("GreenHueMin");
+            this.greenThresholds.HueMax = readThresholdOrDefault("GreenHueMax");
+            this.greenThresholds.SatMin = readThresholdOrDefault("GreenSatMin");
+            this.greenThresholds.SatMax = readThresholdOrDefault("GreenSatMax");
+            this.greenThresholds.ValMin = readThresholdOrDefault("GreenValMin");
+            this.greenThresholds.ValMax = readThresholdOrDefault("GreenValMax");
+        }
+
+        private int readThresholdOrDefault(string key)
+        {
+            int result = 0;
+
+            if(this.config.AppSettings.Settings[key] != null)
+            {
+                int.TryParse(this.config.AppSettings.Settings[key].Value, out result);
+            }
+
+            return result;
+        }
+
+        private void setTrackbarsToThresholds()
+        {
+            this.yellowMinHueTrack.Value = this.yellowThresholds.HueMin;
+            this.yellowMaxHueTrack.Value = this.yellowThresholds.HueMax;
+            this.yellowMinSatTrack.Value = this.yellowThresholds.SatMin;
+            this.yellowMaxSatTrack.Value = this.yellowThresholds.SatMax;
+            this.yellowMinValTrack.Value = this.yellowThresholds.ValMin;
+            this.yellowMaxValTrack.Value = this.yellowThresholds.ValMax;
+
+            this.greenMinHueTrack.Value = this.greenThresholds.HueMin;
+            this.greenMaxHueTrack.Value = this.greenThresholds.HueMax;
+            this.greenMinSatTrack.Value = this.greenThresholds.SatMin;
+            this.greenMaxSatTrack.Value = this.greenThresholds.SatMax;
+            this.greenMinValTrack.Value = this.greenThresholds.ValMin;
+            this.greenMaxValTrack.Value = this.greenThresholds.ValMax;
+        }
+
+        private void saveThresholds()
+        {
+            this.saveConfigValue(this.config.AppSettings, "YellowHueMin", this.yellowThresholds.HueMin.ToString());
+            this.saveConfigValue(this.config.AppSettings, "YellowHueMax", this.yellowThresholds.HueMax.ToString());
+            this.saveConfigValue(this.config.AppSettings, "YellowSatMin", this.yellowThresholds.SatMin.ToString());
+            this.saveConfigValue(this.config.AppSettings, "YellowSatMax", this.yellowThresholds.SatMax.ToString());
+            this.saveConfigValue(this.config.AppSettings, "YellowValMin", this.yellowThresholds.ValMin.ToString());
+            this.saveConfigValue(this.config.AppSettings, "YellowValMax", this.yellowThresholds.ValMax.ToString());
+
+            this.saveConfigValue(this.config.AppSettings, "GreenHueMin", this.greenThresholds.HueMin.ToString());
+            this.saveConfigValue(this.config.AppSettings, "GreenHueMax", this.greenThresholds.HueMax.ToString());
+            this.saveConfigValue(this.config.AppSettings, "GreenSatMin", this.greenThresholds.SatMin.ToString());
+            this.saveConfigValue(this.config.AppSettings, "GreenSatMax", this.greenThresholds.SatMax.ToString());
+            this.saveConfigValue(this.config.AppSettings, "GreenValMin", this.greenThresholds.ValMin.ToString());
+            this.saveConfigValue(this.config.AppSettings, "GreenValMax", this.greenThresholds.ValMax.ToString());
+
+            config.Save();
+        }
+
+        private void saveConfigValue(AppSettingsSection settingsSection, string key, string value)
+        {
+            if(settingsSection.Settings[key] == null)
+            {
+                settingsSection.Settings.Add(key, value);
+            } else
+            {
+                settingsSection.Settings[key].Value = value;
+            }
         }
 
         private void DisplayCaptured(object sender, EventArgs e)
@@ -65,6 +147,8 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.HueMin = this.yellowMinHueTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void yellowMaxHueTrack_Scroll(object sender, EventArgs e)
@@ -76,6 +160,8 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.HueMax = this.yellowMaxHueTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void yellowMinSatTrack_Scroll(object sender, EventArgs e)
@@ -87,6 +173,8 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.SatMin = this.yellowMinSatTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void yellowMaxSatTrack_Scroll(object sender, EventArgs e)
@@ -98,6 +186,8 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.SatMax = this.yellowMaxSatTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void yellowMinValTrack_Scroll(object sender, EventArgs e)
@@ -109,6 +199,8 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.ValMin = this.yellowMinValTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void yellowMaxValTrack_Scroll(object sender, EventArgs e)
@@ -120,6 +212,8 @@ namespace VCCChallenge
             }
 
             this.yellowThresholds.ValMax = this.yellowMaxValTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void greenMinHueTrack_Scroll(object sender, EventArgs e)
@@ -131,6 +225,8 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.HueMin = this.greenMinHueTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void greenMaxHueTrack_Scroll(object sender, EventArgs e)
@@ -142,6 +238,8 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.HueMax = this.greenMaxHueTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void greenMinSatTrack_Scroll(object sender, EventArgs e)
@@ -153,6 +251,8 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.SatMin = this.greenMinSatTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void greenMaxSatTrack_Scroll(object sender, EventArgs e)
@@ -164,6 +264,8 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.SatMax = this.greenMaxSatTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void greenMinValTrack_Scroll(object sender, EventArgs e)
@@ -175,6 +277,8 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.ValMin = this.greenMinValTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void greenMaxValTrack_Scroll(object sender, EventArgs e)
@@ -186,6 +290,8 @@ namespace VCCChallenge
             }
 
             this.greenThresholds.ValMax = this.greenMaxValTrack.Value;
+
+            this.saveThresholds();
         }
 
         private void VCCChallenge_FormClosed(object sender, FormClosedEventArgs e)
