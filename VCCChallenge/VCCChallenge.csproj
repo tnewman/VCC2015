@@ -56,10 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryThresholds.cs" />
-    <Compile Include="HsvFilter.cs" />
-    <Compile Include="HsvImage.cs" />
-    <Compile Include="PaperContourExtraction.cs" />
+    <Compile Include="Model\BinaryThresholds.cs" />
+    <Compile Include="Model\HsvFilter.cs" />
+    <Compile Include="Service\HsvImage.cs" />
+    <Compile Include="Service\PaperContourExtraction.cs" />
     <Compile Include="VCCChallenge.cs">
       <SubType>Form</SubType>
     </Compile>
