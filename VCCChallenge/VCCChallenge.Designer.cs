@@ -59,6 +59,17 @@
             this.GreenValImgBox = new Emgu.CV.UI.ImageBox();
             this.PaperDetectionGrp = new System.Windows.Forms.GroupBox();
             this.CaptureImgBox = new Emgu.CV.UI.ImageBox();
+            this.L2BotTestGrp = new System.Windows.Forms.GroupBox();
+            this.testForwardBtn = new System.Windows.Forms.Button();
+            this.testSteerLeft90Btn = new System.Windows.Forms.Button();
+            this.testSteerRight90Btn = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.topColTxt = new System.Windows.Forms.TextBox();
+            this.midColTxt = new System.Windows.Forms.TextBox();
+            this.btmColTxt = new System.Windows.Forms.TextBox();
+            this.topColLbl = new System.Windows.Forms.Label();
+            this.midColLbl = new System.Windows.Forms.Label();
+            this.btmColLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.YellowHueImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YellowSatImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YellowValImgBox)).BeginInit();
@@ -89,6 +100,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.GreenValImgBox)).BeginInit();
             this.PaperDetectionGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CaptureImgBox)).BeginInit();
+            this.L2BotTestGrp.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // YellowHueImgBox
@@ -402,7 +415,7 @@
             this.PaperDetectionGrp.Controls.Add(this.CaptureImgBox);
             this.PaperDetectionGrp.Location = new System.Drawing.Point(12, 611);
             this.PaperDetectionGrp.Name = "PaperDetectionGrp";
-            this.PaperDetectionGrp.Size = new System.Drawing.Size(1298, 293);
+            this.PaperDetectionGrp.Size = new System.Drawing.Size(212, 232);
             this.PaperDetectionGrp.TabIndex = 10;
             this.PaperDetectionGrp.TabStop = false;
             this.PaperDetectionGrp.Text = "Paper Detection";
@@ -415,11 +428,121 @@
             this.CaptureImgBox.TabIndex = 2;
             this.CaptureImgBox.TabStop = false;
             // 
+            // L2BotTestGrp
+            // 
+            this.L2BotTestGrp.Controls.Add(this.testSteerRight90Btn);
+            this.L2BotTestGrp.Controls.Add(this.testSteerLeft90Btn);
+            this.L2BotTestGrp.Controls.Add(this.testForwardBtn);
+            this.L2BotTestGrp.Location = new System.Drawing.Point(230, 611);
+            this.L2BotTestGrp.Name = "L2BotTestGrp";
+            this.L2BotTestGrp.Size = new System.Drawing.Size(154, 232);
+            this.L2BotTestGrp.TabIndex = 11;
+            this.L2BotTestGrp.TabStop = false;
+            this.L2BotTestGrp.Text = "L2 Bot";
+            // 
+            // testForwardBtn
+            // 
+            this.testForwardBtn.Location = new System.Drawing.Point(6, 21);
+            this.testForwardBtn.Name = "testForwardBtn";
+            this.testForwardBtn.Size = new System.Drawing.Size(142, 44);
+            this.testForwardBtn.TabIndex = 0;
+            this.testForwardBtn.Text = "Test Drive Forward";
+            this.testForwardBtn.UseVisualStyleBackColor = true;
+            this.testForwardBtn.Click += new System.EventHandler(this.testForwardBtn_Click);
+            // 
+            // testSteerLeft90Btn
+            // 
+            this.testSteerLeft90Btn.Location = new System.Drawing.Point(6, 71);
+            this.testSteerLeft90Btn.Name = "testSteerLeft90Btn";
+            this.testSteerLeft90Btn.Size = new System.Drawing.Size(142, 44);
+            this.testSteerLeft90Btn.TabIndex = 1;
+            this.testSteerLeft90Btn.Text = "Test Steer Left 90";
+            this.testSteerLeft90Btn.UseVisualStyleBackColor = true;
+            this.testSteerLeft90Btn.Click += new System.EventHandler(this.testSteerLeft90Btn_Click);
+            // 
+            // testSteerRight90Btn
+            // 
+            this.testSteerRight90Btn.Location = new System.Drawing.Point(6, 121);
+            this.testSteerRight90Btn.Name = "testSteerRight90Btn";
+            this.testSteerRight90Btn.Size = new System.Drawing.Size(142, 44);
+            this.testSteerRight90Btn.TabIndex = 12;
+            this.testSteerRight90Btn.Text = "Test Steer Right 90";
+            this.testSteerRight90Btn.UseVisualStyleBackColor = true;
+            this.testSteerRight90Btn.Click += new System.EventHandler(this.testSteerRight90Btn_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btmColLbl);
+            this.groupBox1.Controls.Add(this.midColLbl);
+            this.groupBox1.Controls.Add(this.topColLbl);
+            this.groupBox1.Controls.Add(this.btmColTxt);
+            this.groupBox1.Controls.Add(this.midColTxt);
+            this.groupBox1.Controls.Add(this.topColTxt);
+            this.groupBox1.Location = new System.Drawing.Point(390, 611);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(170, 232);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Current Column Colors";
+            // 
+            // topColTxt
+            // 
+            this.topColTxt.Location = new System.Drawing.Point(61, 21);
+            this.topColTxt.Name = "topColTxt";
+            this.topColTxt.ReadOnly = true;
+            this.topColTxt.Size = new System.Drawing.Size(100, 22);
+            this.topColTxt.TabIndex = 0;
+            // 
+            // midColTxt
+            // 
+            this.midColTxt.Location = new System.Drawing.Point(61, 49);
+            this.midColTxt.Name = "midColTxt";
+            this.midColTxt.ReadOnly = true;
+            this.midColTxt.Size = new System.Drawing.Size(100, 22);
+            this.midColTxt.TabIndex = 0;
+            // 
+            // btmColTxt
+            // 
+            this.btmColTxt.Location = new System.Drawing.Point(61, 77);
+            this.btmColTxt.Name = "btmColTxt";
+            this.btmColTxt.ReadOnly = true;
+            this.btmColTxt.Size = new System.Drawing.Size(100, 22);
+            this.btmColTxt.TabIndex = 0;
+            // 
+            // topColLbl
+            // 
+            this.topColLbl.AutoSize = true;
+            this.topColLbl.Location = new System.Drawing.Point(22, 24);
+            this.topColLbl.Name = "topColLbl";
+            this.topColLbl.Size = new System.Drawing.Size(33, 17);
+            this.topColLbl.TabIndex = 1;
+            this.topColLbl.Text = "Top";
+            // 
+            // midColLbl
+            // 
+            this.midColLbl.AutoSize = true;
+            this.midColLbl.Location = new System.Drawing.Point(6, 52);
+            this.midColLbl.Name = "midColLbl";
+            this.midColLbl.Size = new System.Drawing.Size(49, 17);
+            this.midColLbl.TabIndex = 1;
+            this.midColLbl.Text = "Middle";
+            // 
+            // btmColLbl
+            // 
+            this.btmColLbl.AutoSize = true;
+            this.btmColLbl.Location = new System.Drawing.Point(6, 80);
+            this.btmColLbl.Name = "btmColLbl";
+            this.btmColLbl.Size = new System.Drawing.Size(52, 17);
+            this.btmColLbl.TabIndex = 1;
+            this.btmColLbl.Text = "Bottom";
+            // 
             // VCCChallenge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1340, 1000);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.L2BotTestGrp);
             this.Controls.Add(this.PaperDetectionGrp);
             this.Controls.Add(this.GreenPaperGrp);
             this.Controls.Add(this.YellowPaperGrp);
@@ -458,6 +581,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.GreenValImgBox)).EndInit();
             this.PaperDetectionGrp.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.CaptureImgBox)).EndInit();
+            this.L2BotTestGrp.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -494,6 +620,17 @@
         private System.Windows.Forms.TrackBar greenMinHueTrack;
         private System.Windows.Forms.GroupBox PaperDetectionGrp;
         private Emgu.CV.UI.ImageBox CaptureImgBox;
+        private System.Windows.Forms.GroupBox L2BotTestGrp;
+        private System.Windows.Forms.Button testSteerRight90Btn;
+        private System.Windows.Forms.Button testSteerLeft90Btn;
+        private System.Windows.Forms.Button testForwardBtn;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox btmColTxt;
+        private System.Windows.Forms.TextBox midColTxt;
+        private System.Windows.Forms.TextBox topColTxt;
+        private System.Windows.Forms.Label btmColLbl;
+        private System.Windows.Forms.Label midColLbl;
+        private System.Windows.Forms.Label topColLbl;
     }
 }
 

@@ -60,7 +60,9 @@
     <Compile Include="Model\HsvFilter.cs" />
     <Compile Include="Model\PaperColor.cs" />
     <Compile Include="Service\ColumnDetection.cs" />
+    <Compile Include="Service\DigitDetection.cs" />
     <Compile Include="Service\HsvImage.cs" />
+    <Compile Include="Service\Motor.cs" />
     <Compile Include="Service\PaperContourExtraction.cs" />
     <Compile Include="VCCChallenge.cs">
       <SubType>Form</SubType>
@@ -94,6 +96,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoCoMoCo\LoCoMoCo.csproj">
+      <Project>{d0d5ba1b-1119-4e4c-9174-c2e0e6976402}</Project>
+      <Name>LoCoMoCo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

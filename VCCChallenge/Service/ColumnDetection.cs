@@ -11,7 +11,6 @@ namespace VCCChallenge
 {
     class ColumnPaperColors
     {
-        private const PaperColor DEFAULT_PAPER_COLOR = PaperColor.GREEN;
         private const int COLUMN_COUNT = 3;
         public const int COLUMN_TOP_INDEX = 0;
         public const int COLUMN_MIDDLE_INDEX = 1;
@@ -23,7 +22,7 @@ namespace VCCChallenge
 
             for (int i = 0; i < columns.Length; i++)
             {
-                columns[i] = DEFAULT_PAPER_COLOR;
+                columns[i] = PaperColor.UKNOWN;
             }
 
             detectColumns(contourImage, columns, yellowContours, PaperColor.YELLOW);

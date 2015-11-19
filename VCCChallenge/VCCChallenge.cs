@@ -19,6 +19,7 @@ namespace VCCChallenge
         private HsvImage hsvImage = new HsvImage();
         private PaperContourExtraction paperContourExtraction = new PaperContourExtraction();
         private ColumnPaperColors columnDetection = new ColumnPaperColors();
+        private Motor motor = new Motor();
 
         public VCCChallenge()
         {
@@ -120,10 +121,14 @@ namespace VCCChallenge
                 HsvFilter yellowFilter = this.hsvImage.generateCombinedHSV(capturedImage, this.yellowThresholds);
                 HsvFilter greenFilter = this.hsvImage.generateCombinedHSV(capturedImage, this.greenThresholds);
 
-                displayFilters(yellowFilter, greenFilter);
-
                 List<Contour<Point>> yellowPaperContours = this.paperContourExtraction.extractPaperContours(yellowFilter.CombinedFilter);
                 List<Contour<Point>> greenPaperContours = this.paperContourExtraction.extractPaperContours(greenFilter.CombinedFilter);
+
+                PaperColor[] column = columnDetection.detectColumnPaperColors(capturedImage, yellowPaperContours, greenPaperContours);
+
+                displayColumn(column);
+
+                displayFilters(yellowFilter, greenFilter);
 
                 foreach(Contour<Point> yellowPaperContour in yellowPaperContours)
                 {
@@ -135,9 +140,31 @@ namespace VCCChallenge
                     capturedImage.Draw(greenPaperContour.BoundingRectangle, new Bgr(Color.Blue), 5);
                 }
 
-                PaperColor[] columns = columnDetection.detectColumnPaperColors(capturedImage, yellowPaperContours, greenPaperContours);
-
                 this.CaptureImgBox.Image = capturedImage.Resize(this.CaptureImgBox.Width, this.CaptureImgBox.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+            }
+        }
+
+        delegate void DisplayColumnCallback(PaperColor[] column);
+
+        private void displayColumn(PaperColor[] column)
+        {
+            if (this.InvokeRequired)
+            {
+                DisplayColumnCallback callback = new DisplayColumnCallback(displayColumn);
+
+                try
+                {
+                    this.Invoke(callback, new object[] { column });
+                } catch(ObjectDisposedException)
+                {
+                    // No Op
+                }
+            }
+            else
+            {
+                topColTxt.Text = PaperColorUtils.PaperColorToString(column[ColumnPaperColors.COLUMN_TOP_INDEX]);
+                midColTxt.Text = PaperColorUtils.PaperColorToString(column[ColumnPaperColors.COLUMN_MIDDLE_INDEX]);
+                btmColTxt.Text = PaperColorUtils.PaperColorToString(column[ColumnPaperColors.COLUMN_BOTTOM_INDEX]);
             }
         }
 
@@ -294,6 +321,21 @@ namespace VCCChallenge
             this.capture.Dispose();
 
             this.saveThresholds();
+        }
+
+        private void testForwardBtn_Click(object sender, EventArgs e)
+        {
+            this.motor.driveForward();
+        }
+
+        private void testSteerLeft90Btn_Click(object sender, EventArgs e)
+        {
+            this.motor.turn90DegreesLeft();
+        }
+
+        private void testSteerRight90Btn_Click(object sender, EventArgs e)
+        {
+            this.motor.turn90DegreesRight();
         }
     }
 }
