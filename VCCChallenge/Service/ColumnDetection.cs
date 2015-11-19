@@ -11,10 +11,14 @@ namespace VCCChallenge
 {
     class ColumnPaperColors
     {
-        private const int COLUMN_COUNT = 3;
         public const int COLUMN_TOP_INDEX = 0;
         public const int COLUMN_MIDDLE_INDEX = 1;
         public const int COLUMN_BOTTOM_INDEX = 2;
+
+        private const int COLUMN_COUNT = 3;
+
+        private const double TOP_HEIGHT_THRESHOLD = 0.20;
+        private const double BOTTOM_HEIGHT_THRESHOLD = 0.80;
 
         public PaperColor[] detectColumnPaperColors(Image<Bgr, byte> contourImage, List<Contour<Point>> yellowContours, List<Contour<Point>> greenContours)
         {
@@ -35,11 +39,11 @@ namespace VCCChallenge
         {
             foreach (Contour<Point> paperContour in paperContours)
             {
-                if (paperContour.BoundingRectangle.Top < contourImage.Height * 0.10)
+                if (paperContour.BoundingRectangle.Top < contourImage.Height * TOP_HEIGHT_THRESHOLD)
                 {
                     columns[COLUMN_TOP_INDEX] = paperColor;
                 }
-                else if (paperContour.BoundingRectangle.Bottom > contourImage.Height * 0.90)
+                else if (paperContour.BoundingRectangle.Bottom > contourImage.Height * BOTTOM_HEIGHT_THRESHOLD)
                 {
                     columns[COLUMN_BOTTOM_INDEX] = paperColor;
                 }
