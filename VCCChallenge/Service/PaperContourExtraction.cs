@@ -9,7 +9,9 @@ namespace VCCChallenge
 {
     class PaperContourExtraction
     {
-        private const double CONTOUR_AREA_PERCENTAGE_THRESHOLD = 0.015;
+        private const double CONTOUR_AREA_PERCENTAGE_THRESHOLD = 0.01;
+        private const double MIDPOINT_LEFT_THRESHOLD = 0.35;
+        private const double MIDPOINT_RIGHT_THRESHOLD = 0.65;
 
         public List<Contour<Point>> extractPaperContours(Image<Gray, byte> binaryImage)
         {
@@ -23,7 +25,7 @@ namespace VCCChallenge
                     {
                         int xMidPoint = contour.BoundingRectangle.X + (contour.BoundingRectangle.Width / 2);
 
-                        if(xMidPoint >= binaryImage.Width * 0.25 && xMidPoint <= binaryImage.Width * 0.75)
+                        if (xMidPoint >= binaryImage.Width * MIDPOINT_LEFT_THRESHOLD && xMidPoint <= binaryImage.Width * MIDPOINT_RIGHT_THRESHOLD)
                         {
                             paperContours.Add(contour);
                         }
