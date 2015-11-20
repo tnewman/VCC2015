@@ -14,7 +14,7 @@ namespace VCCChallenge
     {
         private const int PAUSE_AFTER_OPERATIONS_SECONDS = 1000;
         private const int MOTOR_FORWARD_SECONDS = 1400;
-        private const int DEGREE_45_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 2;
+        private const int DEGREE_22_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 4;
         private const int DEGREE_90_MOTOR_SECONDS = 1100;
         private const string PORT = "COM4";
 
@@ -54,25 +54,25 @@ namespace VCCChallenge
             motorController.close();
         }
 
-        public void turn45DegreesLeft()
+        public void turn22DegreesLeft()
         {
             LoCoMoCo.LoCoMoCo motorController = new LoCoMoCo.LoCoMoCo(PORT);
 
             motorController.move(LoCoMoCo.LoCoMoCo.BACKWARD, LoCoMoCo.LoCoMoCo.FORWARD);
 
-            Thread.Sleep(DEGREE_45_MOTOR_SECONDS);
+            Thread.Sleep(DEGREE_22_MOTOR_SECONDS);
 
             motorController.stop();
             motorController.close();
         }
 
-        public void turn45DegreesRight()
+        public void turn22DegreesRight()
         {
             LoCoMoCo.LoCoMoCo motorController = new LoCoMoCo.LoCoMoCo(PORT);
 
             motorController.move(LoCoMoCo.LoCoMoCo.FORWARD, LoCoMoCo.LoCoMoCo.BACKWARD);
 
-            Thread.Sleep(DEGREE_45_MOTOR_SECONDS);
+            Thread.Sleep(DEGREE_22_MOTOR_SECONDS);
 
             motorController.stop();
             motorController.close();

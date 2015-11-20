@@ -144,7 +144,7 @@ namespace VCCChallenge
 
                 this.CaptureImgBox.Image = capturedImage.Resize(this.CaptureImgBox.Width, this.CaptureImgBox.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
 
-                this.digitDetection.processDigitDetection();
+                this.digitDetection.processDigitDetection(column);
             }
         }
 
@@ -395,14 +395,14 @@ namespace VCCChallenge
             this.motor.turn90DegreesRight();
         }
 
-        private void testSteerLeft45Btn_Click(object sender, EventArgs e)
+        private void testSteerLeft22Btn_Click(object sender, EventArgs e)
         {
-            this.motor.turn45DegreesLeft();
+            this.motor.turn22DegreesLeft();
         }
 
-        private void testSteerRight45Btn_Click(object sender, EventArgs e)
+        private void testSteerRight22Btn_Click(object sender, EventArgs e)
         {
-            this.motor.turn45DegreesRight();
+            this.motor.turn22DegreesRight();
         }
 
         private void startDetectBtn_Click(object sender, EventArgs e)

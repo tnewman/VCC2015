@@ -60,8 +60,8 @@
             this.PaperDetectionGrp = new System.Windows.Forms.GroupBox();
             this.CaptureImgBox = new Emgu.CV.UI.ImageBox();
             this.L2BotTestGrp = new System.Windows.Forms.GroupBox();
-            this.testSteerRight45Btn = new System.Windows.Forms.Button();
-            this.testSteerLeft45Btn = new System.Windows.Forms.Button();
+            this.testSteerRight22Btn = new System.Windows.Forms.Button();
+            this.testSteerLeft22Btn = new System.Windows.Forms.Button();
             this.testSteerRight90Btn = new System.Windows.Forms.Button();
             this.testSteerLeft90Btn = new System.Windows.Forms.Button();
             this.testForwardBtn = new System.Windows.Forms.Button();
@@ -439,8 +439,8 @@
             // 
             // L2BotTestGrp
             // 
-            this.L2BotTestGrp.Controls.Add(this.testSteerRight45Btn);
-            this.L2BotTestGrp.Controls.Add(this.testSteerLeft45Btn);
+            this.L2BotTestGrp.Controls.Add(this.testSteerRight22Btn);
+            this.L2BotTestGrp.Controls.Add(this.testSteerLeft22Btn);
             this.L2BotTestGrp.Controls.Add(this.testSteerRight90Btn);
             this.L2BotTestGrp.Controls.Add(this.testSteerLeft90Btn);
             this.L2BotTestGrp.Controls.Add(this.testForwardBtn);
@@ -451,25 +451,25 @@
             this.L2BotTestGrp.TabStop = false;
             this.L2BotTestGrp.Text = "L2 Bot";
             // 
-            // testSteerRight45Btn
+            // testSteerRight22Btn
             // 
-            this.testSteerRight45Btn.Location = new System.Drawing.Point(6, 157);
-            this.testSteerRight45Btn.Name = "testSteerRight45Btn";
-            this.testSteerRight45Btn.Size = new System.Drawing.Size(146, 28);
-            this.testSteerRight45Btn.TabIndex = 14;
-            this.testSteerRight45Btn.Text = "Test Steer Right 45";
-            this.testSteerRight45Btn.UseVisualStyleBackColor = true;
-            this.testSteerRight45Btn.Click += new System.EventHandler(this.testSteerRight45Btn_Click);
+            this.testSteerRight22Btn.Location = new System.Drawing.Point(6, 157);
+            this.testSteerRight22Btn.Name = "testSteerRight22Btn";
+            this.testSteerRight22Btn.Size = new System.Drawing.Size(146, 28);
+            this.testSteerRight22Btn.TabIndex = 14;
+            this.testSteerRight22Btn.Text = "Test Steer Right 22";
+            this.testSteerRight22Btn.UseVisualStyleBackColor = true;
+            this.testSteerRight22Btn.Click += new System.EventHandler(this.testSteerRight22Btn_Click);
             // 
-            // testSteerLeft45Btn
+            // testSteerLeft22Btn
             // 
-            this.testSteerLeft45Btn.Location = new System.Drawing.Point(6, 123);
-            this.testSteerLeft45Btn.Name = "testSteerLeft45Btn";
-            this.testSteerLeft45Btn.Size = new System.Drawing.Size(146, 28);
-            this.testSteerLeft45Btn.TabIndex = 13;
-            this.testSteerLeft45Btn.Text = "Test Steer Left 45";
-            this.testSteerLeft45Btn.UseVisualStyleBackColor = true;
-            this.testSteerLeft45Btn.Click += new System.EventHandler(this.testSteerLeft45Btn_Click);
+            this.testSteerLeft22Btn.Location = new System.Drawing.Point(6, 123);
+            this.testSteerLeft22Btn.Name = "testSteerLeft22Btn";
+            this.testSteerLeft22Btn.Size = new System.Drawing.Size(146, 28);
+            this.testSteerLeft22Btn.TabIndex = 13;
+            this.testSteerLeft22Btn.Text = "Test Steer Left 22";
+            this.testSteerLeft22Btn.UseVisualStyleBackColor = true;
+            this.testSteerLeft22Btn.Click += new System.EventHandler(this.testSteerLeft22Btn_Click);
             // 
             // testSteerRight90Btn
             // 
@@ -718,8 +718,8 @@
         private System.Windows.Forms.Label btmColLbl;
         private System.Windows.Forms.Label midColLbl;
         private System.Windows.Forms.Label topColLbl;
-        private System.Windows.Forms.Button testSteerRight45Btn;
-        private System.Windows.Forms.Button testSteerLeft45Btn;
+        private System.Windows.Forms.Button testSteerRight22Btn;
+        private System.Windows.Forms.Button testSteerLeft22Btn;
         private System.Windows.Forms.GroupBox digitDetectControlGrp;
         private System.Windows.Forms.Button stopDetectBtn;
         private System.Windows.Forms.Button startDetectBtn;
