@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace VCCChallenge
 {
-    public partial class VCCChallenge : Form
+    public partial class VCCChallenge : Form, IDigitDetectionCallback
     {
         private Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         private Capture capture = new Capture();
@@ -20,10 +20,12 @@ namespace VCCChallenge
         private PaperContourExtraction paperContourExtraction = new PaperContourExtraction();
         private ColumnPaperColors columnDetection = new ColumnPaperColors();
         private Motor motor = new Motor();
+        private DigitDetection digitDetection;
 
         public VCCChallenge()
         {
             InitializeComponent();
+            this.digitDetection = new DigitDetection(this);
         }
 
         private void VCCChallenge_Load(object sender, EventArgs e)
@@ -141,6 +143,8 @@ namespace VCCChallenge
                 }
 
                 this.CaptureImgBox.Image = capturedImage.Resize(this.CaptureImgBox.Width, this.CaptureImgBox.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+
+                this.digitDetection.processDigitDetection();
             }
         }
 
@@ -166,6 +170,59 @@ namespace VCCChallenge
                 midColTxt.Text = PaperColorUtils.PaperColorToString(column[ColumnPaperColors.COLUMN_MIDDLE_INDEX]);
                 btmColTxt.Text = PaperColorUtils.PaperColorToString(column[ColumnPaperColors.COLUMN_BOTTOM_INDEX]);
             }
+        }
+
+        delegate void DigitDetectionCallback();
+
+        public void DigitDetectionStarted()
+        {
+            if (this.InvokeRequired)
+            {
+                DigitDetectionCallback callback = new DigitDetectionCallback(DigitDetectionStarted);
+
+                try
+                {
+                    this.Invoke(callback, new object[] { });
+                }
+                catch (ObjectDisposedException)
+                {
+                    // No Op
+                }
+            }
+            else
+            {
+                this.startDetectBtn.Enabled = false;
+                this.stopDetectBtn.Enabled = true;
+            }
+        }
+
+        
+
+        public void DigitDetectionStopped()
+        {
+            if (this.InvokeRequired)
+            {
+                DigitDetectionCallback callback = new DigitDetectionCallback(DigitDetectionStopped);
+
+                try
+                {
+                    this.Invoke(callback, new object[] { });
+                }
+                catch (ObjectDisposedException)
+                {
+                    // No Op
+                }
+            }
+            else
+            {
+                this.startDetectBtn.Enabled = true;
+                this.stopDetectBtn.Enabled = false;
+            }
+        }
+
+        public void DigitDetected()
+        {
+
         }
 
         private void displayFilters(HsvFilter yellowFilter, HsvFilter greenFilter)
@@ -346,6 +403,16 @@ namespace VCCChallenge
         private void testSteerRight45Btn_Click(object sender, EventArgs e)
         {
             this.motor.turn45DegreesRight();
+        }
+
+        private void startDetectBtn_Click(object sender, EventArgs e)
+        {
+            this.digitDetection.Start();
+        }
+
+        private void stopDetectBtn_Click(object sender, EventArgs e)
+        {
+            this.digitDetection.Stop();
         }
     }
 }

@@ -60,18 +60,23 @@
             this.PaperDetectionGrp = new System.Windows.Forms.GroupBox();
             this.CaptureImgBox = new Emgu.CV.UI.ImageBox();
             this.L2BotTestGrp = new System.Windows.Forms.GroupBox();
-            this.testForwardBtn = new System.Windows.Forms.Button();
-            this.testSteerLeft90Btn = new System.Windows.Forms.Button();
-            this.testSteerRight90Btn = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.topColTxt = new System.Windows.Forms.TextBox();
-            this.midColTxt = new System.Windows.Forms.TextBox();
-            this.btmColTxt = new System.Windows.Forms.TextBox();
-            this.topColLbl = new System.Windows.Forms.Label();
-            this.midColLbl = new System.Windows.Forms.Label();
-            this.btmColLbl = new System.Windows.Forms.Label();
             this.testSteerRight45Btn = new System.Windows.Forms.Button();
             this.testSteerLeft45Btn = new System.Windows.Forms.Button();
+            this.testSteerRight90Btn = new System.Windows.Forms.Button();
+            this.testSteerLeft90Btn = new System.Windows.Forms.Button();
+            this.testForwardBtn = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btmColLbl = new System.Windows.Forms.Label();
+            this.midColLbl = new System.Windows.Forms.Label();
+            this.topColLbl = new System.Windows.Forms.Label();
+            this.btmColTxt = new System.Windows.Forms.TextBox();
+            this.midColTxt = new System.Windows.Forms.TextBox();
+            this.topColTxt = new System.Windows.Forms.TextBox();
+            this.digitDetectControlGrp = new System.Windows.Forms.GroupBox();
+            this.stopDetectBtn = new System.Windows.Forms.Button();
+            this.startDetectBtn = new System.Windows.Forms.Button();
+            this.detectedDigitGrp = new System.Windows.Forms.GroupBox();
+            this.detectedDigitLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.YellowHueImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YellowSatImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YellowValImgBox)).BeginInit();
@@ -104,6 +109,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.CaptureImgBox)).BeginInit();
             this.L2BotTestGrp.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.digitDetectControlGrp.SuspendLayout();
+            this.detectedDigitGrp.SuspendLayout();
             this.SuspendLayout();
             // 
             // YellowHueImgBox
@@ -444,102 +451,6 @@
             this.L2BotTestGrp.TabStop = false;
             this.L2BotTestGrp.Text = "L2 Bot";
             // 
-            // testForwardBtn
-            // 
-            this.testForwardBtn.Location = new System.Drawing.Point(6, 21);
-            this.testForwardBtn.Name = "testForwardBtn";
-            this.testForwardBtn.Size = new System.Drawing.Size(146, 28);
-            this.testForwardBtn.TabIndex = 0;
-            this.testForwardBtn.Text = "Test Drive Forward";
-            this.testForwardBtn.UseVisualStyleBackColor = true;
-            this.testForwardBtn.Click += new System.EventHandler(this.testForwardBtn_Click);
-            // 
-            // testSteerLeft90Btn
-            // 
-            this.testSteerLeft90Btn.Location = new System.Drawing.Point(6, 55);
-            this.testSteerLeft90Btn.Name = "testSteerLeft90Btn";
-            this.testSteerLeft90Btn.Size = new System.Drawing.Size(146, 28);
-            this.testSteerLeft90Btn.TabIndex = 1;
-            this.testSteerLeft90Btn.Text = "Test Steer Left 90";
-            this.testSteerLeft90Btn.UseVisualStyleBackColor = true;
-            this.testSteerLeft90Btn.Click += new System.EventHandler(this.testSteerLeft90Btn_Click);
-            // 
-            // testSteerRight90Btn
-            // 
-            this.testSteerRight90Btn.Location = new System.Drawing.Point(6, 89);
-            this.testSteerRight90Btn.Name = "testSteerRight90Btn";
-            this.testSteerRight90Btn.Size = new System.Drawing.Size(146, 28);
-            this.testSteerRight90Btn.TabIndex = 12;
-            this.testSteerRight90Btn.Text = "Test Steer Right 90";
-            this.testSteerRight90Btn.UseVisualStyleBackColor = true;
-            this.testSteerRight90Btn.Click += new System.EventHandler(this.testSteerRight90Btn_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btmColLbl);
-            this.groupBox1.Controls.Add(this.midColLbl);
-            this.groupBox1.Controls.Add(this.topColLbl);
-            this.groupBox1.Controls.Add(this.btmColTxt);
-            this.groupBox1.Controls.Add(this.midColTxt);
-            this.groupBox1.Controls.Add(this.topColTxt);
-            this.groupBox1.Location = new System.Drawing.Point(394, 611);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(170, 232);
-            this.groupBox1.TabIndex = 12;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Current Column Colors";
-            // 
-            // topColTxt
-            // 
-            this.topColTxt.Location = new System.Drawing.Point(61, 21);
-            this.topColTxt.Name = "topColTxt";
-            this.topColTxt.ReadOnly = true;
-            this.topColTxt.Size = new System.Drawing.Size(100, 22);
-            this.topColTxt.TabIndex = 0;
-            // 
-            // midColTxt
-            // 
-            this.midColTxt.Location = new System.Drawing.Point(61, 49);
-            this.midColTxt.Name = "midColTxt";
-            this.midColTxt.ReadOnly = true;
-            this.midColTxt.Size = new System.Drawing.Size(100, 22);
-            this.midColTxt.TabIndex = 0;
-            // 
-            // btmColTxt
-            // 
-            this.btmColTxt.Location = new System.Drawing.Point(61, 77);
-            this.btmColTxt.Name = "btmColTxt";
-            this.btmColTxt.ReadOnly = true;
-            this.btmColTxt.Size = new System.Drawing.Size(100, 22);
-            this.btmColTxt.TabIndex = 0;
-            // 
-            // topColLbl
-            // 
-            this.topColLbl.AutoSize = true;
-            this.topColLbl.Location = new System.Drawing.Point(22, 24);
-            this.topColLbl.Name = "topColLbl";
-            this.topColLbl.Size = new System.Drawing.Size(33, 17);
-            this.topColLbl.TabIndex = 1;
-            this.topColLbl.Text = "Top";
-            // 
-            // midColLbl
-            // 
-            this.midColLbl.AutoSize = true;
-            this.midColLbl.Location = new System.Drawing.Point(6, 52);
-            this.midColLbl.Name = "midColLbl";
-            this.midColLbl.Size = new System.Drawing.Size(49, 17);
-            this.midColLbl.TabIndex = 1;
-            this.midColLbl.Text = "Middle";
-            // 
-            // btmColLbl
-            // 
-            this.btmColLbl.AutoSize = true;
-            this.btmColLbl.Location = new System.Drawing.Point(6, 80);
-            this.btmColLbl.Name = "btmColLbl";
-            this.btmColLbl.Size = new System.Drawing.Size(52, 17);
-            this.btmColLbl.TabIndex = 1;
-            this.btmColLbl.Text = "Bottom";
-            // 
             // testSteerRight45Btn
             // 
             this.testSteerRight45Btn.Location = new System.Drawing.Point(6, 157);
@@ -560,11 +471,161 @@
             this.testSteerLeft45Btn.UseVisualStyleBackColor = true;
             this.testSteerLeft45Btn.Click += new System.EventHandler(this.testSteerLeft45Btn_Click);
             // 
+            // testSteerRight90Btn
+            // 
+            this.testSteerRight90Btn.Location = new System.Drawing.Point(6, 89);
+            this.testSteerRight90Btn.Name = "testSteerRight90Btn";
+            this.testSteerRight90Btn.Size = new System.Drawing.Size(146, 28);
+            this.testSteerRight90Btn.TabIndex = 12;
+            this.testSteerRight90Btn.Text = "Test Steer Right 90";
+            this.testSteerRight90Btn.UseVisualStyleBackColor = true;
+            this.testSteerRight90Btn.Click += new System.EventHandler(this.testSteerRight90Btn_Click);
+            // 
+            // testSteerLeft90Btn
+            // 
+            this.testSteerLeft90Btn.Location = new System.Drawing.Point(6, 55);
+            this.testSteerLeft90Btn.Name = "testSteerLeft90Btn";
+            this.testSteerLeft90Btn.Size = new System.Drawing.Size(146, 28);
+            this.testSteerLeft90Btn.TabIndex = 1;
+            this.testSteerLeft90Btn.Text = "Test Steer Left 90";
+            this.testSteerLeft90Btn.UseVisualStyleBackColor = true;
+            this.testSteerLeft90Btn.Click += new System.EventHandler(this.testSteerLeft90Btn_Click);
+            // 
+            // testForwardBtn
+            // 
+            this.testForwardBtn.Location = new System.Drawing.Point(6, 21);
+            this.testForwardBtn.Name = "testForwardBtn";
+            this.testForwardBtn.Size = new System.Drawing.Size(146, 28);
+            this.testForwardBtn.TabIndex = 0;
+            this.testForwardBtn.Text = "Test Drive Forward";
+            this.testForwardBtn.UseVisualStyleBackColor = true;
+            this.testForwardBtn.Click += new System.EventHandler(this.testForwardBtn_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btmColLbl);
+            this.groupBox1.Controls.Add(this.midColLbl);
+            this.groupBox1.Controls.Add(this.topColLbl);
+            this.groupBox1.Controls.Add(this.btmColTxt);
+            this.groupBox1.Controls.Add(this.midColTxt);
+            this.groupBox1.Controls.Add(this.topColTxt);
+            this.groupBox1.Location = new System.Drawing.Point(394, 611);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(152, 232);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Current Column";
+            // 
+            // btmColLbl
+            // 
+            this.btmColLbl.AutoSize = true;
+            this.btmColLbl.Location = new System.Drawing.Point(6, 80);
+            this.btmColLbl.Name = "btmColLbl";
+            this.btmColLbl.Size = new System.Drawing.Size(52, 17);
+            this.btmColLbl.TabIndex = 1;
+            this.btmColLbl.Text = "Bottom";
+            // 
+            // midColLbl
+            // 
+            this.midColLbl.AutoSize = true;
+            this.midColLbl.Location = new System.Drawing.Point(6, 52);
+            this.midColLbl.Name = "midColLbl";
+            this.midColLbl.Size = new System.Drawing.Size(49, 17);
+            this.midColLbl.TabIndex = 1;
+            this.midColLbl.Text = "Middle";
+            // 
+            // topColLbl
+            // 
+            this.topColLbl.AutoSize = true;
+            this.topColLbl.Location = new System.Drawing.Point(22, 24);
+            this.topColLbl.Name = "topColLbl";
+            this.topColLbl.Size = new System.Drawing.Size(33, 17);
+            this.topColLbl.TabIndex = 1;
+            this.topColLbl.Text = "Top";
+            // 
+            // btmColTxt
+            // 
+            this.btmColTxt.Location = new System.Drawing.Point(61, 77);
+            this.btmColTxt.Name = "btmColTxt";
+            this.btmColTxt.ReadOnly = true;
+            this.btmColTxt.Size = new System.Drawing.Size(80, 22);
+            this.btmColTxt.TabIndex = 0;
+            // 
+            // midColTxt
+            // 
+            this.midColTxt.Location = new System.Drawing.Point(61, 49);
+            this.midColTxt.Name = "midColTxt";
+            this.midColTxt.ReadOnly = true;
+            this.midColTxt.Size = new System.Drawing.Size(80, 22);
+            this.midColTxt.TabIndex = 0;
+            // 
+            // topColTxt
+            // 
+            this.topColTxt.Location = new System.Drawing.Point(61, 21);
+            this.topColTxt.Name = "topColTxt";
+            this.topColTxt.ReadOnly = true;
+            this.topColTxt.Size = new System.Drawing.Size(80, 22);
+            this.topColTxt.TabIndex = 0;
+            // 
+            // digitDetectControlGrp
+            // 
+            this.digitDetectControlGrp.Controls.Add(this.stopDetectBtn);
+            this.digitDetectControlGrp.Controls.Add(this.startDetectBtn);
+            this.digitDetectControlGrp.Location = new System.Drawing.Point(570, 611);
+            this.digitDetectControlGrp.Name = "digitDetectControlGrp";
+            this.digitDetectControlGrp.Size = new System.Drawing.Size(164, 97);
+            this.digitDetectControlGrp.TabIndex = 13;
+            this.digitDetectControlGrp.TabStop = false;
+            this.digitDetectControlGrp.Text = "Digit Detection";
+            // 
+            // stopDetectBtn
+            // 
+            this.stopDetectBtn.Enabled = false;
+            this.stopDetectBtn.Location = new System.Drawing.Point(6, 55);
+            this.stopDetectBtn.Name = "stopDetectBtn";
+            this.stopDetectBtn.Size = new System.Drawing.Size(152, 28);
+            this.stopDetectBtn.TabIndex = 15;
+            this.stopDetectBtn.Text = "Stop Digit Detection";
+            this.stopDetectBtn.UseVisualStyleBackColor = true;
+            this.stopDetectBtn.Click += new System.EventHandler(this.stopDetectBtn_Click);
+            // 
+            // startDetectBtn
+            // 
+            this.startDetectBtn.Location = new System.Drawing.Point(6, 21);
+            this.startDetectBtn.Name = "startDetectBtn";
+            this.startDetectBtn.Size = new System.Drawing.Size(152, 28);
+            this.startDetectBtn.TabIndex = 14;
+            this.startDetectBtn.Text = "Start Digit Detection";
+            this.startDetectBtn.UseVisualStyleBackColor = true;
+            this.startDetectBtn.Click += new System.EventHandler(this.startDetectBtn_Click);
+            // 
+            // detectedDigitGrp
+            // 
+            this.detectedDigitGrp.Controls.Add(this.detectedDigitLbl);
+            this.detectedDigitGrp.Location = new System.Drawing.Point(570, 714);
+            this.detectedDigitGrp.Name = "detectedDigitGrp";
+            this.detectedDigitGrp.Size = new System.Drawing.Size(164, 129);
+            this.detectedDigitGrp.TabIndex = 14;
+            this.detectedDigitGrp.TabStop = false;
+            this.detectedDigitGrp.Text = "Detected Digit";
+            // 
+            // detectedDigitLbl
+            // 
+            this.detectedDigitLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.detectedDigitLbl.Location = new System.Drawing.Point(6, 18);
+            this.detectedDigitLbl.Name = "detectedDigitLbl";
+            this.detectedDigitLbl.Size = new System.Drawing.Size(152, 100);
+            this.detectedDigitLbl.TabIndex = 0;
+            this.detectedDigitLbl.Text = "N/A";
+            this.detectedDigitLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // VCCChallenge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1340, 1000);
+            this.ClientSize = new System.Drawing.Size(1340, 863);
+            this.Controls.Add(this.detectedDigitGrp);
+            this.Controls.Add(this.digitDetectControlGrp);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.L2BotTestGrp);
             this.Controls.Add(this.PaperDetectionGrp);
@@ -608,6 +669,8 @@
             this.L2BotTestGrp.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.digitDetectControlGrp.ResumeLayout(false);
+            this.detectedDigitGrp.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -657,6 +720,11 @@
         private System.Windows.Forms.Label topColLbl;
         private System.Windows.Forms.Button testSteerRight45Btn;
         private System.Windows.Forms.Button testSteerLeft45Btn;
+        private System.Windows.Forms.GroupBox digitDetectControlGrp;
+        private System.Windows.Forms.Button stopDetectBtn;
+        private System.Windows.Forms.Button startDetectBtn;
+        private System.Windows.Forms.GroupBox detectedDigitGrp;
+        private System.Windows.Forms.Label detectedDigitLbl;
     }
 }
 
