@@ -70,6 +70,8 @@
             this.topColLbl = new System.Windows.Forms.Label();
             this.midColLbl = new System.Windows.Forms.Label();
             this.btmColLbl = new System.Windows.Forms.Label();
+            this.testSteerRight45Btn = new System.Windows.Forms.Button();
+            this.testSteerLeft45Btn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.YellowHueImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YellowSatImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YellowValImgBox)).BeginInit();
@@ -430,12 +432,14 @@
             // 
             // L2BotTestGrp
             // 
+            this.L2BotTestGrp.Controls.Add(this.testSteerRight45Btn);
+            this.L2BotTestGrp.Controls.Add(this.testSteerLeft45Btn);
             this.L2BotTestGrp.Controls.Add(this.testSteerRight90Btn);
             this.L2BotTestGrp.Controls.Add(this.testSteerLeft90Btn);
             this.L2BotTestGrp.Controls.Add(this.testForwardBtn);
             this.L2BotTestGrp.Location = new System.Drawing.Point(230, 611);
             this.L2BotTestGrp.Name = "L2BotTestGrp";
-            this.L2BotTestGrp.Size = new System.Drawing.Size(154, 232);
+            this.L2BotTestGrp.Size = new System.Drawing.Size(158, 232);
             this.L2BotTestGrp.TabIndex = 11;
             this.L2BotTestGrp.TabStop = false;
             this.L2BotTestGrp.Text = "L2 Bot";
@@ -444,7 +448,7 @@
             // 
             this.testForwardBtn.Location = new System.Drawing.Point(6, 21);
             this.testForwardBtn.Name = "testForwardBtn";
-            this.testForwardBtn.Size = new System.Drawing.Size(142, 44);
+            this.testForwardBtn.Size = new System.Drawing.Size(146, 28);
             this.testForwardBtn.TabIndex = 0;
             this.testForwardBtn.Text = "Test Drive Forward";
             this.testForwardBtn.UseVisualStyleBackColor = true;
@@ -452,9 +456,9 @@
             // 
             // testSteerLeft90Btn
             // 
-            this.testSteerLeft90Btn.Location = new System.Drawing.Point(6, 71);
+            this.testSteerLeft90Btn.Location = new System.Drawing.Point(6, 55);
             this.testSteerLeft90Btn.Name = "testSteerLeft90Btn";
-            this.testSteerLeft90Btn.Size = new System.Drawing.Size(142, 44);
+            this.testSteerLeft90Btn.Size = new System.Drawing.Size(146, 28);
             this.testSteerLeft90Btn.TabIndex = 1;
             this.testSteerLeft90Btn.Text = "Test Steer Left 90";
             this.testSteerLeft90Btn.UseVisualStyleBackColor = true;
@@ -462,9 +466,9 @@
             // 
             // testSteerRight90Btn
             // 
-            this.testSteerRight90Btn.Location = new System.Drawing.Point(6, 121);
+            this.testSteerRight90Btn.Location = new System.Drawing.Point(6, 89);
             this.testSteerRight90Btn.Name = "testSteerRight90Btn";
-            this.testSteerRight90Btn.Size = new System.Drawing.Size(142, 44);
+            this.testSteerRight90Btn.Size = new System.Drawing.Size(146, 28);
             this.testSteerRight90Btn.TabIndex = 12;
             this.testSteerRight90Btn.Text = "Test Steer Right 90";
             this.testSteerRight90Btn.UseVisualStyleBackColor = true;
@@ -478,7 +482,7 @@
             this.groupBox1.Controls.Add(this.btmColTxt);
             this.groupBox1.Controls.Add(this.midColTxt);
             this.groupBox1.Controls.Add(this.topColTxt);
-            this.groupBox1.Location = new System.Drawing.Point(390, 611);
+            this.groupBox1.Location = new System.Drawing.Point(394, 611);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(170, 232);
             this.groupBox1.TabIndex = 12;
@@ -535,6 +539,26 @@
             this.btmColLbl.Size = new System.Drawing.Size(52, 17);
             this.btmColLbl.TabIndex = 1;
             this.btmColLbl.Text = "Bottom";
+            // 
+            // testSteerRight45Btn
+            // 
+            this.testSteerRight45Btn.Location = new System.Drawing.Point(6, 157);
+            this.testSteerRight45Btn.Name = "testSteerRight45Btn";
+            this.testSteerRight45Btn.Size = new System.Drawing.Size(146, 28);
+            this.testSteerRight45Btn.TabIndex = 14;
+            this.testSteerRight45Btn.Text = "Test Steer Right 45";
+            this.testSteerRight45Btn.UseVisualStyleBackColor = true;
+            this.testSteerRight45Btn.Click += new System.EventHandler(this.testSteerRight45Btn_Click);
+            // 
+            // testSteerLeft45Btn
+            // 
+            this.testSteerLeft45Btn.Location = new System.Drawing.Point(6, 123);
+            this.testSteerLeft45Btn.Name = "testSteerLeft45Btn";
+            this.testSteerLeft45Btn.Size = new System.Drawing.Size(146, 28);
+            this.testSteerLeft45Btn.TabIndex = 13;
+            this.testSteerLeft45Btn.Text = "Test Steer Left 45";
+            this.testSteerLeft45Btn.UseVisualStyleBackColor = true;
+            this.testSteerLeft45Btn.Click += new System.EventHandler(this.testSteerLeft45Btn_Click);
             // 
             // VCCChallenge
             // 
@@ -631,6 +655,8 @@
         private System.Windows.Forms.Label btmColLbl;
         private System.Windows.Forms.Label midColLbl;
         private System.Windows.Forms.Label topColLbl;
+        private System.Windows.Forms.Button testSteerRight45Btn;
+        private System.Windows.Forms.Button testSteerLeft45Btn;
     }
 }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright 2015 Thomas Newman
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +14,8 @@ namespace VCCChallenge
     {
         private const int PAUSE_AFTER_OPERATIONS_SECONDS = 1000;
         private const int MOTOR_FORWARD_SECONDS = 1400;
-        private const int DEGREE_90_MOTOR_SECONDS = 1150;
+        private const int DEGREE_45_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 2;
+        private const int DEGREE_90_MOTOR_SECONDS = 1100;
         private const string PORT = "COM4";
 
         public void driveForward()
@@ -25,8 +28,6 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
-
-            Thread.Sleep(PAUSE_AFTER_OPERATIONS_SECONDS);
         }
 
         public void turn90DegreesLeft()
@@ -39,8 +40,6 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
-
-            Thread.Sleep(PAUSE_AFTER_OPERATIONS_SECONDS);
         }
 
         public void turn90DegreesRight()
@@ -53,8 +52,30 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
+        }
 
-            Thread.Sleep(PAUSE_AFTER_OPERATIONS_SECONDS);
+        public void turn45DegreesLeft()
+        {
+            LoCoMoCo.LoCoMoCo motorController = new LoCoMoCo.LoCoMoCo(PORT);
+
+            motorController.move(LoCoMoCo.LoCoMoCo.BACKWARD, LoCoMoCo.LoCoMoCo.FORWARD);
+
+            Thread.Sleep(DEGREE_45_MOTOR_SECONDS);
+
+            motorController.stop();
+            motorController.close();
+        }
+
+        public void turn45DegreesRight()
+        {
+            LoCoMoCo.LoCoMoCo motorController = new LoCoMoCo.LoCoMoCo(PORT);
+
+            motorController.move(LoCoMoCo.LoCoMoCo.FORWARD, LoCoMoCo.LoCoMoCo.BACKWARD);
+
+            Thread.Sleep(DEGREE_45_MOTOR_SECONDS);
+
+            motorController.stop();
+            motorController.close();
         }
     }
 }

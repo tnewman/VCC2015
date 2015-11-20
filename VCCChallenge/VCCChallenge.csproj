@@ -62,6 +62,7 @@
     <Compile Include="Service\ColumnDetection.cs" />
     <Compile Include="Service\DigitDetection.cs" />
     <Compile Include="Service\HsvImage.cs" />
+    <Compile Include="Service\IDigitDetectionCallback.cs" />
     <Compile Include="Service\Motor.cs" />
     <Compile Include="Service\PaperContourExtraction.cs" />
     <Compile Include="VCCChallenge.cs">

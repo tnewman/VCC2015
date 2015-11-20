@@ -1,4 +1,6 @@
-﻿using Emgu.CV;
+﻿// Copyright 2015 Thomas Newman
+
+using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
 using System.Collections.Generic;

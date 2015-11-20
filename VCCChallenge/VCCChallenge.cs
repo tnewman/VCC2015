@@ -337,5 +337,15 @@ namespace VCCChallenge
         {
             this.motor.turn90DegreesRight();
         }
+
+        private void testSteerLeft45Btn_Click(object sender, EventArgs e)
+        {
+            this.motor.turn45DegreesLeft();
+        }
+
+        private void testSteerRight45Btn_Click(object sender, EventArgs e)
+        {
+            this.motor.turn45DegreesRight();
+        }
     }
 }
