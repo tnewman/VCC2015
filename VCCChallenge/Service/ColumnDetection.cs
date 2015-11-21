@@ -19,8 +19,8 @@ namespace VCCChallenge
 
         private const int COLUMN_COUNT = 3;
 
-        private const double TOP_HEIGHT_THRESHOLD = 0.20;
-        private const double BOTTOM_HEIGHT_THRESHOLD = 0.80;
+        private const double TOP_HEIGHT_THRESHOLD = 0.10;
+        private const double BOTTOM_HEIGHT_THRESHOLD = 0.60;
 
         public PaperColor[] detectColumnPaperColors(Image<Bgr, byte> contourImage, List<Contour<Point>> yellowContours, List<Contour<Point>> greenContours)
         {

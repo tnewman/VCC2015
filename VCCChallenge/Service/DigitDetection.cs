@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace VCCChallenge
@@ -46,6 +47,7 @@ namespace VCCChallenge
 
         private int leftColumns = 0;
         private int rightColumns = 0;
+        private List<PaperColor[]> paperColumns;
 
         public DigitDetection()
         {
@@ -129,6 +131,8 @@ namespace VCCChallenge
 
         private State chooseDirection(PaperColor[] column)
         {
+            this.paperColumns = new List<PaperColor[]>();
+
             if(this.leftColumns == this.rightColumns)
             {
                 this.direction = Direction.NONE;
@@ -148,7 +152,31 @@ namespace VCCChallenge
 
         private State processColumn(PaperColor[] column)
         {
-            return State.MOVE;
+            this.paperColumns.Add(column);
+
+            if(this.paperColumns.Count < COLUMN_COUNT)
+            {
+                if(this.direction == Direction.LEFT)
+                {
+                    this.motor.turn90DegreesLeft();
+                    this.motor.driveForward();
+                    this.motor.turn90DegreesRight();
+                }
+                else if(this.direction == Direction.RIGHT)
+                {
+                    this.motor.turn90DegreesRight();
+                    this.motor.driveForward();
+                    this.motor.turn90DegreesLeft();
+                } else
+                {
+                    return State.WAIT_FOR_RUN;
+                }
+
+                return State.PROCESS_COLUMN;
+            } else
+            {
+                return State.CALCULATE_DIGIT;
+            }
         }
 
         private State move(PaperColor[] column)
@@ -158,7 +186,7 @@ namespace VCCChallenge
 
         public void processDigitDetection(PaperColor[] column)
         {
-            if (initialFrameCount < INITIAL_FRAMES_IGNORED)
+            if (this.initialFrameCount < INITIAL_FRAMES_IGNORED)
             {
                 this.initialFrameCount++;
             }

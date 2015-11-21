@@ -13,9 +13,10 @@ namespace VCCChallenge
     class Motor
     {
         private const int PAUSE_AFTER_OPERATIONS_SECONDS = 1000;
-        private const int MOTOR_FORWARD_SECONDS = 1400;
+        private const int MOTOR_FORWARD_SECONDS = 1600;
         private const int DEGREE_22_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 4;
-        private const int DEGREE_90_MOTOR_SECONDS = 1100;
+        private const int DEGREE_90_MOTOR_SECONDS = 1250;
+        private const int SLEEP_AFTER_OPERATION_SECONDS = 250;
         private const string PORT = "COM4";
 
         public void driveForward()
@@ -28,6 +29,8 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
+
+            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
         public void turn90DegreesLeft()
@@ -40,6 +43,8 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
+
+            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
         public void turn90DegreesRight()
@@ -52,6 +57,8 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
+
+            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
         public void turn22DegreesLeft()
@@ -64,6 +71,8 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
+
+            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
         public void turn22DegreesRight()
@@ -76,6 +85,8 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
+
+            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
     }
 }
