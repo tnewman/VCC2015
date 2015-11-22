@@ -47,16 +47,29 @@ namespace VCCChallenge
 
         private int leftColumns = 0;
         private int rightColumns = 0;
+        private PaperColor[,] digitsToMatch;
         private List<PaperColor[]> paperColumns;
-
-        public DigitDetection()
-        {
-            this.callback = null;
-        }
 
         public DigitDetection(IDigitDetectionCallback callback)
         {
             this.callback = callback;
+            this.setDigitsToMatch();
+        }
+
+        private void setDigitsToMatch()
+        {
+            this.digitsToMatch = new PaperColor[,]{
+                {PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW},
+                {PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN},
+                {PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW},
+                {PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW},
+                {PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW},
+                {PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW},
+                {PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW},
+                {PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW},
+                {PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW},
+                {PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW, PaperColor.GREEN, PaperColor.GREEN, PaperColor.YELLOW}
+            };
         }
 
         public void Start()
@@ -90,7 +103,7 @@ namespace VCCChallenge
 
             foreach(PaperColor row in column)
             {
-                if (!row.Equals(PaperColor.UKNOWN))
+                if (!row.Equals(PaperColor.UNKNOWN))
                 {
                     this.leftColumns++;
                 }
@@ -113,7 +126,7 @@ namespace VCCChallenge
 
             foreach (PaperColor row in column)
             {
-                if (!row.Equals(PaperColor.UKNOWN))
+                if (!row.Equals(PaperColor.UNKNOWN))
                 {
                     this.rightColumns++;
                 }
@@ -179,9 +192,51 @@ namespace VCCChallenge
             }
         }
 
-        private State move(PaperColor[] column)
+        private State calculateDigit(PaperColor[] column)
         {
-            return State.CALCULATE_DIGIT;
+            if(this.direction == Direction.LEFT)
+            {
+                this.paperColumns.Reverse();
+            }
+
+            PaperColor[] paperCells = new PaperColor[this.paperColumns.Count * column.Length];
+
+            for (int i = 0; i < this.paperColumns.Count; i++)
+            {
+                for(int j = 0; j < column.Length; j++)
+                {
+                    paperCells[i * column.Length + j] = this.paperColumns[i][j];
+                }
+            }
+
+            int matchNumber = 0;
+            int matchCount = 0;
+
+            for(int i = 0; i < this.digitsToMatch.GetLength(0); i++)
+            {
+                int currentMatchCount = 0;
+
+                for(int j = 0; j < this.digitsToMatch.GetLength(1); j++)
+                {
+                    if(paperCells[j] == PaperColor.UNKNOWN)
+                    {
+                        currentMatchCount++;
+                    } else if(paperCells[j] == this.digitsToMatch[i, j])
+                    {
+                        currentMatchCount++;
+                    }
+                }
+
+                if(currentMatchCount > matchCount)
+                {
+                    matchNumber = i;
+                    matchCount = currentMatchCount;
+                }
+            }
+
+            this.callback.DigitDetected(matchNumber);
+
+            return State.WAIT_FOR_RUN;
         }
 
         public void processDigitDetection(PaperColor[] column)
@@ -220,8 +275,8 @@ namespace VCCChallenge
                     case State.PROCESS_COLUMN:
                         this.state = this.processColumn(column);
                         break;
-                    case State.MOVE:
-                        this.state = this.move(column);
+                    case State.CALCULATE_DIGIT:
+                        this.state = this.calculateDigit(column);
                         break;
                     default:
                         this.state = this.waitForRun(column);

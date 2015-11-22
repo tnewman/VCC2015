@@ -10,7 +10,7 @@ namespace VCCChallenge
 {
     public enum PaperColor
     {
-        UKNOWN,
+        UNKNOWN,
         YELLOW,
         GREEN
     }
@@ -21,7 +21,7 @@ namespace VCCChallenge
         {
             switch(paperColor)
             {
-                case PaperColor.UKNOWN:
+                case PaperColor.UNKNOWN:
                     return "Unknown";
                 case PaperColor.YELLOW:
                     return "Yellow";

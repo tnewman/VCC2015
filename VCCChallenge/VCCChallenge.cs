@@ -173,6 +173,7 @@ namespace VCCChallenge
         }
 
         delegate void DigitDetectionCallback();
+        delegate void DigitDetectionCallbackSetDigit(int digitDetected);
 
         public void DigitDetectionStarted()
         {
@@ -196,8 +197,6 @@ namespace VCCChallenge
             }
         }
 
-        
-
         public void DigitDetectionStopped()
         {
             if (this.InvokeRequired)
@@ -220,9 +219,25 @@ namespace VCCChallenge
             }
         }
 
-        public void DigitDetected()
+        public void DigitDetected(int digitDetected)
         {
+            if (this.InvokeRequired)
+            {
+                DigitDetectionCallbackSetDigit callback = new DigitDetectionCallbackSetDigit(DigitDetected);
 
+                try
+                {
+                    this.Invoke(callback, new object[] { digitDetected });
+                }
+                catch (ObjectDisposedException)
+                {
+                    // No Op
+                }
+            }
+            else
+            {
+                this.detectedDigitLbl.Text = digitDetected.ToString();
+            }
         }
 
         private void displayFilters(HsvFilter yellowFilter, HsvFilter greenFilter)

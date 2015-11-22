@@ -13,14 +13,14 @@ namespace VCCChallenge
 {
     class ColumnPaperColors
     {
-        public const int COLUMN_TOP_INDEX = 0;
+        public const int COLUMN_TOP_INDEX = 2;
         public const int COLUMN_MIDDLE_INDEX = 1;
-        public const int COLUMN_BOTTOM_INDEX = 2;
+        public const int COLUMN_BOTTOM_INDEX = 0;
 
         private const int COLUMN_COUNT = 3;
 
         private const double TOP_HEIGHT_THRESHOLD = 0.10;
-        private const double BOTTOM_HEIGHT_THRESHOLD = 0.60;
+        private const double BOTTOM_HEIGHT_THRESHOLD = 0.40;
 
         public PaperColor[] detectColumnPaperColors(Image<Bgr, byte> contourImage, List<Contour<Point>> yellowContours, List<Contour<Point>> greenContours)
         {
@@ -28,7 +28,7 @@ namespace VCCChallenge
 
             for (int i = 0; i < columns.Length; i++)
             {
-                columns[i] = PaperColor.UKNOWN;
+                columns[i] = PaperColor.UNKNOWN;
             }
 
             detectColumns(contourImage, columns, yellowContours, PaperColor.YELLOW);

@@ -12,11 +12,10 @@ namespace VCCChallenge
 {
     class Motor
     {
-        private const int PAUSE_AFTER_OPERATIONS_SECONDS = 1000;
-        private const int MOTOR_FORWARD_SECONDS = 1600;
+        private const int MOTOR_FORWARD_SECONDS = 1575;
         private const int DEGREE_22_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 4;
-        private const int DEGREE_90_MOTOR_SECONDS = 1250;
-        private const int SLEEP_AFTER_OPERATION_SECONDS = 250;
+        private const int DEGREE_90_MOTOR_SECONDS = 1150;
+        private const int SLEEP_AFTER_OPERATION_SECONDS = 1000;
         private const string PORT = "COM4";
 
         public void driveForward()
