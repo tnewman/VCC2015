@@ -25,7 +25,7 @@ namespace VCCChallenge
             CALCULATE_DIGIT
         }
 
-        enum Direction
+        public enum Direction
         {
             NONE,
             LEFT,
@@ -84,20 +84,20 @@ namespace VCCChallenge
             this.state = State.WAIT_FOR_RUN;
         }
 
-        private State waitForRun(PaperColor[] column)
+        private State waitForRun(PaperColor[] column, Direction rotationCorrectionDirection)
         {
             Stop();
             return State.WAIT_FOR_RUN;
         }
 
-        private State moveLeft(PaperColor[] column)
+        private State moveLeft(PaperColor[] column, Direction rotationCorrectionDirection)
         {
             this.motor.turn22DegreesLeft();
 
             return State.CHECK_LEFT;
         }
 
-        private State checkLeft(PaperColor[] column)
+        private State checkLeft(PaperColor[] column, Direction rotationCorrectionDirection)
         {
             this.leftColumns = 0;
 
@@ -112,7 +112,7 @@ namespace VCCChallenge
             return State.MOVE_RIGHT;
         }
 
-        private State moveRight(PaperColor[] column)
+        private State moveRight(PaperColor[] column, Direction rotationCorrectionDirection)
         {
             this.motor.turn22DegreesRight();
             this.motor.turn22DegreesRight();
@@ -120,7 +120,7 @@ namespace VCCChallenge
             return State.CHECK_RIGHT;
         }
 
-        private State checkRight(PaperColor[] column)
+        private State checkRight(PaperColor[] column, Direction rotationCorrectionDirection)
         {
             this.rightColumns = 0;
 
@@ -135,14 +135,14 @@ namespace VCCChallenge
             return State.RETURN_TO_START;
         }
 
-        private State returnToStart(PaperColor[] column)
+        private State returnToStart(PaperColor[] column, Direction rotationCorrectionDirection)
         {
             this.motor.turn22DegreesLeft();
 
             return State.CHOOSE_DIRECTION;
         }
 
-        private State chooseDirection(PaperColor[] column)
+        private State chooseDirection(PaperColor[] column, Direction rotationCorrectionDirection)
         {
             this.paperColumns = new List<PaperColor[]>();
 
@@ -163,36 +163,53 @@ namespace VCCChallenge
             }
         }
 
-        private State processColumn(PaperColor[] column)
+        private State processColumn(PaperColor[] column, Direction rotationCorrectionDirection)
         {
-            this.paperColumns.Add(column);
-
-            if(this.paperColumns.Count < COLUMN_COUNT)
+            if (rotationCorrectionDirection == Direction.LEFT)
             {
-                if(this.direction == Direction.LEFT)
-                {
-                    this.motor.turn90DegreesLeft();
-                    this.motor.driveForward();
-                    this.motor.turn90DegreesRight();
-                }
-                else if(this.direction == Direction.RIGHT)
-                {
-                    this.motor.turn90DegreesRight();
-                    this.motor.driveForward();
-                    this.motor.turn90DegreesLeft();
-                } else
-                {
-                    return State.WAIT_FOR_RUN;
-                }
+                this.motor.turn6DegreesRight();
 
                 return State.PROCESS_COLUMN;
-            } else
+            }
+            else if (rotationCorrectionDirection == Direction.RIGHT)
             {
-                return State.CALCULATE_DIGIT;
+                this.motor.turn6DegreesLeft();
+
+                return State.PROCESS_COLUMN;
+            }
+            else
+            {
+                this.paperColumns.Add(column);
+
+                if (this.paperColumns.Count < COLUMN_COUNT)
+                {
+                    if (this.direction == Direction.LEFT)
+                    {
+                        this.motor.turn90DegreesLeft();
+                        this.motor.driveForward();
+                        this.motor.turn90DegreesRight();
+                    }
+                    else if (this.direction == Direction.RIGHT)
+                    {
+                        this.motor.turn90DegreesRight();
+                        this.motor.driveForward();
+                        this.motor.turn90DegreesLeft();
+                    }
+                    else
+                    {
+                        return State.WAIT_FOR_RUN;
+                    }
+
+                    return State.PROCESS_COLUMN;
+                }
+                else
+                {
+                    return State.CALCULATE_DIGIT;
+                }
             }
         }
 
-        private State calculateDigit(PaperColor[] column)
+        private State calculateDigit(PaperColor[] column, Direction rotationCorrectionDirection)
         {
             if(this.direction == Direction.LEFT)
             {
@@ -239,7 +256,7 @@ namespace VCCChallenge
             return State.WAIT_FOR_RUN;
         }
 
-        public void processDigitDetection(PaperColor[] column)
+        public void processDigitDetection(PaperColor[] column, Direction rotationCorrectionDirection)
         {
             if (this.initialFrameCount < INITIAL_FRAMES_IGNORED)
             {
@@ -252,34 +269,34 @@ namespace VCCChallenge
                 switch (this.state)
                 {
                     case State.WAIT_FOR_RUN:
-                        this.state = this.waitForRun(column);
+                        this.state = this.waitForRun(column, rotationCorrectionDirection);
                         break;
                     case State.MOVE_LEFT:
-                        this.state = this.moveLeft(column);
+                        this.state = this.moveLeft(column, rotationCorrectionDirection);
                         break;
                     case State.CHECK_LEFT:
-                        this.state = this.checkLeft(column);
+                        this.state = this.checkLeft(column, rotationCorrectionDirection);
                         break;
                     case State.MOVE_RIGHT:
-                        this.state = this.moveRight(column);
+                        this.state = this.moveRight(column, rotationCorrectionDirection);
                         break;
                     case State.CHECK_RIGHT:
-                        this.state = this.checkRight(column);
+                        this.state = this.checkRight(column, rotationCorrectionDirection);
                         break;
                     case State.RETURN_TO_START:
-                        this.state = this.returnToStart(column);
+                        this.state = this.returnToStart(column, rotationCorrectionDirection);
                         break;
                     case State.CHOOSE_DIRECTION:
-                        this.state = this.chooseDirection(column);
+                        this.state = this.chooseDirection(column, rotationCorrectionDirection);
                         break;
                     case State.PROCESS_COLUMN:
-                        this.state = this.processColumn(column);
+                        this.state = this.processColumn(column, rotationCorrectionDirection);
                         break;
                     case State.CALCULATE_DIGIT:
-                        this.state = this.calculateDigit(column);
+                        this.state = this.calculateDigit(column, rotationCorrectionDirection);
                         break;
                     default:
-                        this.state = this.waitForRun(column);
+                        this.state = this.waitForRun(column, rotationCorrectionDirection);
                         break;
                 }
             }

@@ -132,6 +132,8 @@ namespace VCCChallenge
 
                 displayFilters(yellowFilter, greenFilter);
 
+                DigitDetection.Direction rotationCorrection = paperContourExtraction.rotationCorrectionDirection(capturedImage, yellowPaperContours, greenPaperContours);
+
                 foreach(Contour<Point> yellowPaperContour in yellowPaperContours)
                 {
                     capturedImage.Draw(yellowPaperContour.BoundingRectangle, new Bgr(Color.Red), 5);
@@ -144,7 +146,7 @@ namespace VCCChallenge
 
                 this.CaptureImgBox.Image = capturedImage.Resize(this.CaptureImgBox.Width, this.CaptureImgBox.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
 
-                this.digitDetection.processDigitDetection(column);
+                this.digitDetection.processDigitDetection(column, rotationCorrection);
             }
         }
 
@@ -418,6 +420,16 @@ namespace VCCChallenge
         private void testSteerRight22Btn_Click(object sender, EventArgs e)
         {
             this.motor.turn22DegreesRight();
+        }
+
+        private void testSteerLeft6Btn_Click(object sender, EventArgs e)
+        {
+            this.motor.turn6DegreesLeft();
+        }
+
+        private void testSteerRight6Btn_Click(object sender, EventArgs e)
+        {
+            this.motor.turn6DegreesRight();
         }
 
         private void startDetectBtn_Click(object sender, EventArgs e)

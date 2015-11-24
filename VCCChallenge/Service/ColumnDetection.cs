@@ -19,22 +19,22 @@ namespace VCCChallenge
 
         private const int COLUMN_COUNT = 3;
 
-        private const double TOP_HEIGHT_THRESHOLD = 0.10;
-        private const double BOTTOM_HEIGHT_THRESHOLD = 0.40;
+        private const double TOP_HEIGHT_THRESHOLD = 0.30;
+        private const double BOTTOM_HEIGHT_THRESHOLD = 0.60;
 
         public PaperColor[] detectColumnPaperColors(Image<Bgr, byte> contourImage, List<Contour<Point>> yellowContours, List<Contour<Point>> greenContours)
         {
-            PaperColor[] columns = new PaperColor[COLUMN_COUNT];
+            PaperColor[] rows = new PaperColor[COLUMN_COUNT];
 
-            for (int i = 0; i < columns.Length; i++)
+            for (int i = 0; i < rows.Length; i++)
             {
-                columns[i] = PaperColor.UNKNOWN;
+                rows[i] = PaperColor.UNKNOWN;
             }
 
-            detectColumns(contourImage, columns, yellowContours, PaperColor.YELLOW);
-            detectColumns(contourImage, columns, greenContours, PaperColor.GREEN);
+            detectColumns(contourImage, rows, yellowContours, PaperColor.YELLOW);
+            detectColumns(contourImage, rows, greenContours, PaperColor.GREEN);
 
-            return columns;
+            return rows;
         }
 
         private void detectColumns(Image<Bgr, byte> contourImage, PaperColor[] columns, List<Contour<Point>> paperContours, PaperColor paperColor)
