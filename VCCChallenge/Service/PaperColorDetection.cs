@@ -13,9 +13,9 @@ namespace VCCChallenge
 {
     class PaperColorDetection
     {
-        private const double LEFT_WIDTH_THRESHOLD = 0.30;
-        private const double RIGHT_WIDTH_THRESHOLD = 0.70;
-        private const double TOP_HEIGHT_THRESHOLD = 0.30;
+        private const double LEFT_WIDTH_THRESHOLD = 0.40;
+        private const double RIGHT_WIDTH_THRESHOLD = 0.60;
+        private const double TOP_HEIGHT_THRESHOLD = 0.20;
         private const double BOTTOM_HEIGHT_THRESHOLD = 0.60;
 
         public Paper[,] detectColumnPaperColors(Image<Bgr, byte> contourImage, List<Contour<Point>> yellowContours, List<Contour<Point>> greenContours)
@@ -69,7 +69,7 @@ namespace VCCChallenge
                 }
                 else
                 {
-                    y = 0;
+                    y = 1;
                 }
 
                 Paper currentPaper = papers[y, x];

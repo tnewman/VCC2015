@@ -9,7 +9,7 @@ namespace VCCChallenge
 {
     class PaperContourExtraction
     {
-        private const double CONTOUR_AREA_PERCENTAGE_THRESHOLD = 0.05;
+        private const double CONTOUR_AREA_PERCENTAGE_THRESHOLD = 0.01;
 
         public List<Contour<Point>> extractPaperContours(Image<Gray, byte> binaryImage)
         {
