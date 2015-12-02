@@ -16,7 +16,7 @@ namespace VCCChallenge
         private const int DEGREE_11_MOTOR_SECONDS = DEGREE_22_MOTOR_SECONDS / 16;
         private const int DEGREE_22_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 4;
         private const int DEGREE_90_MOTOR_SECONDS = 1100;
-        private const int SLEEP_AFTER_OPERATION_SECONDS = 1000;
+        private const int SLEEP_AFTER_OPERATION_SECONDS = 250;
         private const string PORT = "COM9";
 
         public void driveForward()

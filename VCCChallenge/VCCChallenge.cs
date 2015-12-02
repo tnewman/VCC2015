@@ -18,7 +18,7 @@ namespace VCCChallenge
         private BinaryThresholds greenThresholds = new BinaryThresholds();
         private HsvImage hsvImage = new HsvImage();
         private PaperContourExtraction paperContourExtraction = new PaperContourExtraction();
-        private ColumnPaperColors columnDetection = new ColumnPaperColors();
+        private PaperColorDetection columnDetection = new PaperColorDetection();
         private Motor motor = new Motor();
         private DigitDetection digitDetection;
 
@@ -125,14 +125,9 @@ namespace VCCChallenge
 
                 List<Contour<Point>> yellowPaperContours = this.paperContourExtraction.extractPaperContours(yellowFilter.CombinedFilter);
                 List<Contour<Point>> greenPaperContours = this.paperContourExtraction.extractPaperContours(greenFilter.CombinedFilter);
-
-                PaperColor[] column = columnDetection.detectColumnPaperColors(capturedImage, yellowPaperContours, greenPaperContours);
-
-                displayColumn(column);
+                PaperColor[,] paperColors = this.columnDetection.detectColumnPaperColors(capturedImage, yellowPaperContours, greenPaperContours);
 
                 displayFilters(yellowFilter, greenFilter);
-
-                DigitDetection.Direction rotationCorrection = paperContourExtraction.rotationCorrectionDirection(capturedImage, yellowPaperContours, greenPaperContours);
 
                 foreach(Contour<Point> yellowPaperContour in yellowPaperContours)
                 {
@@ -145,8 +140,6 @@ namespace VCCChallenge
                 }
 
                 this.CaptureImgBox.Image = capturedImage.Resize(this.CaptureImgBox.Width, this.CaptureImgBox.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
-
-                this.digitDetection.processDigitDetection(column, rotationCorrection);
             }
         }
 
@@ -168,9 +161,9 @@ namespace VCCChallenge
             }
             else
             {
-                topColTxt.Text = PaperColorUtils.PaperColorToString(column[ColumnPaperColors.COLUMN_TOP_INDEX]);
-                midColTxt.Text = PaperColorUtils.PaperColorToString(column[ColumnPaperColors.COLUMN_MIDDLE_INDEX]);
-                btmColTxt.Text = PaperColorUtils.PaperColorToString(column[ColumnPaperColors.COLUMN_BOTTOM_INDEX]);
+                topColTxt.Text = "TBD";
+                midColTxt.Text = "TBD";
+                btmColTxt.Text = "TBD";
             }
         }
 
