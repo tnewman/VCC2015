@@ -79,7 +79,7 @@ namespace VCCChallenge
         public void Start()
         {
             this.callback.DigitDetectionStarted();
-            this.state = State.MOVE_LEFT;
+            this.state = State.SWEEP_LEFT;
         }
 
         public void Stop()
