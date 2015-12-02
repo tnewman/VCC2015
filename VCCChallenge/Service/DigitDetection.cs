@@ -88,13 +88,14 @@ namespace VCCChallenge
             this.state = State.WAIT_FOR_RUN;
         }
 
-        private State waitForRun(PaperColor[,] papers)
+        private State waitForRun(Paper[,] papers)
         {
             Stop();
+            this.paperColumns = new List<PaperColor[]>();
             return State.WAIT_FOR_RUN;
         }
 
-        private State calculateDigit(PaperColor[,] papers)
+        private State calculateDigit(Paper[,] papers)
         {
             if(this.direction == Direction.LEFT)
             {
@@ -141,7 +142,7 @@ namespace VCCChallenge
             return State.WAIT_FOR_RUN;
         }
 
-        public void processDigitDetection(PaperColor[,] papers)
+        public void processDigitDetection(Paper[,] papers)
         {
             if (this.initialFrameCount < INITIAL_FRAMES_IGNORED)
             {

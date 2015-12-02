@@ -125,7 +125,8 @@ namespace VCCChallenge
 
                 List<Contour<Point>> yellowPaperContours = this.paperContourExtraction.extractPaperContours(yellowFilter.CombinedFilter);
                 List<Contour<Point>> greenPaperContours = this.paperContourExtraction.extractPaperContours(greenFilter.CombinedFilter);
-                PaperColor[,] paperColors = this.columnDetection.detectColumnPaperColors(capturedImage, yellowPaperContours, greenPaperContours);
+                Paper[,] papers = this.columnDetection.detectColumnPaperColors(capturedImage, yellowPaperContours, greenPaperContours);
+                this.digitDetection.processDigitDetection(papers);
 
                 displayFilters(yellowFilter, greenFilter);
 

@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Model\BinaryThresholds.cs" />
     <Compile Include="Model\HsvFilter.cs" />
+    <Compile Include="Model\Paper.cs" />
     <Compile Include="Model\PaperColor.cs" />
     <Compile Include="Service\PaperColorDetection.cs" />
     <Compile Include="Service\DigitDetection.cs" />

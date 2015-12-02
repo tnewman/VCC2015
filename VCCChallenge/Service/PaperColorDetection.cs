@@ -18,25 +18,26 @@ namespace VCCChallenge
         private const double TOP_HEIGHT_THRESHOLD = 0.30;
         private const double BOTTOM_HEIGHT_THRESHOLD = 0.60;
 
-        public PaperColor[,] detectColumnPaperColors(Image<Bgr, byte> contourImage, List<Contour<Point>> yellowContours, List<Contour<Point>> greenContours)
+        public Paper[,] detectColumnPaperColors(Image<Bgr, byte> contourImage, List<Contour<Point>> yellowContours, List<Contour<Point>> greenContours)
         {
-            PaperColor[,] papers = new PaperColor[3,3];
+            Paper[,] papers = new Paper[3,3];
 
             for (int i = 0; i < papers.GetLength(0); i++)
             {
                 for(int j = 0; j < papers.GetLength(1); j++)
                 {
-                    papers[i, j] = PaperColor.UNKNOWN;
+                    papers[i, j] = new Paper();
+                    papers[i, j].Color = PaperColor.UNKNOWN;
                 }
             }
-            
+
             detectColumns(contourImage, papers, yellowContours, PaperColor.YELLOW);
             detectColumns(contourImage, papers, greenContours, PaperColor.GREEN);
 
             return papers;
         }
 
-        private void detectColumns(Image<Bgr, byte> contourImage, PaperColor[,] papers, List<Contour<Point>> paperContours, PaperColor paperColor)
+        private void detectColumns(Image<Bgr, byte> contourImage, Paper[,] papers, List<Contour<Point>> paperContours, PaperColor paperColor)
         {
             foreach (Contour<Point> paperContour in paperContours)
             {
@@ -71,7 +72,10 @@ namespace VCCChallenge
                     y = 0;
                 }
 
-                papers[y, x] = paperColor;
+                Paper currentPaper = papers[y, x];
+                currentPaper.Color = paperColor;
+                currentPaper.XMidPoint = xMidPoint;
+                currentPaper.YMidPoint = yMidPoint;
             }
         }
     }
