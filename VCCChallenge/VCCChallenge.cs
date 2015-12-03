@@ -128,7 +128,8 @@ namespace VCCChallenge
                 Paper[,] papers = this.columnDetection.detectColumnPaperColors(capturedImage, yellowPaperContours, greenPaperContours);
                 this.digitDetection.processDigitDetection(papers);
 
-                displayFilters(yellowFilter, greenFilter);
+                this.displayFilters(yellowFilter, greenFilter);
+                this.displayPapers(papers);
 
                 foreach(Contour<Point> yellowPaperContour in yellowPaperContours)
                 {
@@ -144,27 +145,34 @@ namespace VCCChallenge
             }
         }
 
-        delegate void DisplayColumnCallback(PaperColor[] column);
+        delegate void DisplayPaperCallback(Paper[,] papers);
 
-        private void displayColumn(PaperColor[] column)
+        private void displayPapers(Paper[,] papers)
         {
             if (this.InvokeRequired)
             {
-                DisplayColumnCallback callback = new DisplayColumnCallback(displayColumn);
+                DisplayPaperCallback callback = new DisplayPaperCallback(displayPapers);
 
                 try
                 {
-                    this.Invoke(callback, new object[] { column });
-                } catch(ObjectDisposedException)
+                    this.Invoke(callback, new object[] { papers });
+                }
+                catch (ObjectDisposedException)
                 {
                     // No Op
                 }
             }
             else
             {
-                topColTxt.Text = "TBD";
-                midColTxt.Text = "TBD";
-                btmColTxt.Text = "TBD";
+                this.y0x0ColTxt.Text = PaperColorUtils.PaperColorToString(papers[0, 0].Color);
+                this.y0x1ColTxt.Text = PaperColorUtils.PaperColorToString(papers[0, 1].Color);
+                this.y0x2ColTxt.Text = PaperColorUtils.PaperColorToString(papers[0, 2].Color);
+                this.y1x0ColTxt.Text = PaperColorUtils.PaperColorToString(papers[1, 0].Color);
+                this.y1x1ColTxt.Text = PaperColorUtils.PaperColorToString(papers[1, 1].Color);
+                this.y1x2ColTxt.Text = PaperColorUtils.PaperColorToString(papers[1, 2].Color);
+                this.y2x0ColTxt.Text = PaperColorUtils.PaperColorToString(papers[2, 0].Color);
+                this.y2x1ColTxt.Text = PaperColorUtils.PaperColorToString(papers[2, 1].Color);
+                this.y2x2ColTxt.Text = PaperColorUtils.PaperColorToString(papers[2, 2].Color);
             }
         }
 
@@ -406,24 +414,14 @@ namespace VCCChallenge
             this.motor.turn90DegreesRight();
         }
 
-        private void testSteerLeft22Btn_Click(object sender, EventArgs e)
+        private void testSteerLeft3Btn_Click(object sender, EventArgs e)
         {
-            this.motor.turn22DegreesLeft();
+            this.motor.turn3DegreesLeft();
         }
 
-        private void testSteerRight22Btn_Click(object sender, EventArgs e)
+        private void testSteerRight3Btn_Click(object sender, EventArgs e)
         {
-            this.motor.turn22DegreesRight();
-        }
-
-        private void testSteerLeft6Btn_Click(object sender, EventArgs e)
-        {
-            this.motor.turn6DegreesLeft();
-        }
-
-        private void testSteerRight6Btn_Click(object sender, EventArgs e)
-        {
-            this.motor.turn6DegreesRight();
+            this.motor.turn3DegreesRight();
         }
 
         private void startDetectBtn_Click(object sender, EventArgs e)

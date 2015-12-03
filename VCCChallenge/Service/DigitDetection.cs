@@ -14,11 +14,7 @@ namespace VCCChallenge
         enum State
         {
             WAIT_FOR_RUN,
-            SWEEP_LEFT,
-            CHECK_LEFT,
-            SWEEP_RIGHT,
-            CHECK_RIGHT,
-            RETURN_TO_START,
+            CHECK_DIRECTION,
             COLUMN_ANGLE_CORRECTION,
             COLUMN_DETECTION,
             STEER_TO_MOVE,
@@ -79,7 +75,7 @@ namespace VCCChallenge
         public void Start()
         {
             this.callback.DigitDetectionStarted();
-            this.state = State.SWEEP_LEFT;
+            this.state = State.CHECK_DIRECTION;
         }
 
         public void Stop()

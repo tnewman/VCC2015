@@ -12,10 +12,9 @@ namespace VCCChallenge
 {
     class Motor
     {
-        private const int MOTOR_FORWARD_SECONDS = 1500;
-        private const int DEGREE_11_MOTOR_SECONDS = DEGREE_22_MOTOR_SECONDS / 16;
-        private const int DEGREE_22_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 4;
-        private const int DEGREE_90_MOTOR_SECONDS = 1100;
+        private const int MOTOR_FORWARD_SECONDS = 1450;
+        private const int DEGREE_3_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 30;
+        private const int DEGREE_90_MOTOR_SECONDS = 1200;
         private const int SLEEP_AFTER_OPERATION_SECONDS = 250;
         private const string PORT = "COM9";
 
@@ -61,13 +60,13 @@ namespace VCCChallenge
             Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
-        public void turn22DegreesLeft()
+        public void turn3DegreesLeft()
         {
             LoCoMoCo.LoCoMoCo motorController = new LoCoMoCo.LoCoMoCo(PORT);
 
             motorController.move(LoCoMoCo.LoCoMoCo.BACKWARD, LoCoMoCo.LoCoMoCo.FORWARD);
 
-            Thread.Sleep(DEGREE_22_MOTOR_SECONDS);
+            Thread.Sleep(DEGREE_3_MOTOR_SECONDS);
 
             motorController.stop();
             motorController.close();
@@ -75,41 +74,13 @@ namespace VCCChallenge
             Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
-        public void turn22DegreesRight()
+        public void turn3DegreesRight()
         {
             LoCoMoCo.LoCoMoCo motorController = new LoCoMoCo.LoCoMoCo(PORT);
 
             motorController.move(LoCoMoCo.LoCoMoCo.FORWARD, LoCoMoCo.LoCoMoCo.BACKWARD);
 
-            Thread.Sleep(DEGREE_22_MOTOR_SECONDS);
-
-            motorController.stop();
-            motorController.close();
-
-            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
-        }
-
-        public void turn6DegreesLeft()
-        {
-            LoCoMoCo.LoCoMoCo motorController = new LoCoMoCo.LoCoMoCo(PORT);
-
-            motorController.move(LoCoMoCo.LoCoMoCo.BACKWARD, LoCoMoCo.LoCoMoCo.FORWARD);
-
-            Thread.Sleep(DEGREE_11_MOTOR_SECONDS);
-
-            motorController.stop();
-            motorController.close();
-
-            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
-        }
-
-        public void turn6DegreesRight()
-        {
-            LoCoMoCo.LoCoMoCo motorController = new LoCoMoCo.LoCoMoCo(PORT);
-
-            motorController.move(LoCoMoCo.LoCoMoCo.FORWARD, LoCoMoCo.LoCoMoCo.BACKWARD);
-
-            Thread.Sleep(DEGREE_11_MOTOR_SECONDS);
+            Thread.Sleep(DEGREE_3_MOTOR_SECONDS);
 
             motorController.stop();
             motorController.close();
