@@ -139,7 +139,7 @@ namespace VCCChallenge
                 this.motor.turn3DegreesRight();
             } else
             {
-                return State.STEER_TO_MOVE;
+                return State.COLUMN_DETECTION;
             }
 
             return State.COLUMN_ANGLE_CORRECTION;
@@ -147,12 +147,28 @@ namespace VCCChallenge
 
         private State columnDetection(Paper[,] papers)
         {
-            return State.COLUMN_DETECTION;
+            PaperColor[] paperColorColumn = new PaperColor[3];
+            paperColorColumn[0] = papers[0, 1].Color;
+            paperColorColumn[1] = papers[1, 1].Color;
+            paperColorColumn[2] = papers[2, 1].Color;
+
+            this.paperColumns.Add(paperColorColumn);
+
+            return State.STEER_TO_MOVE;
         }
 
         private State steerToMove(Paper[,] papers)
         {
-            return State.STEER_TO_MOVE;
+            if (this.direction == Direction.LEFT)
+            {
+                this.motor.turn90DegreesLeft();
+            }
+            else
+            {
+                this.motor.turn90DegreesRight();
+            }
+
+            return State.STEER_ANGLE_CORRECTION;
         }
 
         private State steerAngleCorrection(Paper[,] papers)
