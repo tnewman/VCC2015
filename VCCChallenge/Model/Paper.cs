@@ -13,10 +13,14 @@ namespace VCCChallenge
             this.Color = PaperColor.UNKNOWN;
             this.XMidPoint = 0;
             this.YMidPoint = 0;
+            this.ParentImageWidth = 0;
+            this.ParentImageHeight = 0;
         }
 
         public PaperColor Color { get; set; }
         public int XMidPoint { get; set; }
         public int YMidPoint { get; set; }
+        public int ParentImageWidth { get; set; }
+        public int ParentImageHeight { get; set; }
     }
 }

@@ -74,6 +74,7 @@ namespace VCCChallenge
 
         public void Start()
         {
+            this.initialFrameCount = 0;
             this.callback.DigitDetectionStarted();
             this.state = State.CHECK_DIRECTION;
         }
@@ -89,6 +90,89 @@ namespace VCCChallenge
             Stop();
             this.paperColumns = new List<PaperColor[]>();
             return State.WAIT_FOR_RUN;
+        }
+
+        private State checkDirection(Paper[,] papers)
+        {
+            int leftPaperCount = 0;
+            int rightPaperCount = 0;
+
+            for(int i = 0; i < papers.GetLength(0); i++)
+            {
+                for(int j = 0; j < papers.GetLength(1); j++)
+                {
+                    if(papers[i,j].Color != PaperColor.UNKNOWN)
+                    {
+                        if(j == 0)
+                        {
+                            leftPaperCount++;
+                        } else if(j == 2)
+                        {
+                            rightPaperCount++;
+                        }
+                    }
+                }
+
+                if (leftPaperCount > rightPaperCount)
+                {
+                    this.direction = Direction.LEFT;
+                }
+                else
+                {
+                    this.direction = Direction.RIGHT;
+                }
+            }
+
+            return State.COLUMN_ANGLE_CORRECTION;
+        }
+
+        private State columnAngleCorrection(Paper[,] papers)
+        {
+            Paper topCenterCellPaper = papers[0,1];
+
+            if(topCenterCellPaper.XMidPoint < topCenterCellPaper.ParentImageWidth * 0.48)
+            {
+                this.motor.turn3DegreesLeft();
+            }
+            else if (topCenterCellPaper.XMidPoint > topCenterCellPaper.ParentImageWidth * 0.52)
+            {
+                this.motor.turn3DegreesRight();
+            } else
+            {
+                return State.STEER_TO_MOVE;
+            }
+
+            return State.COLUMN_ANGLE_CORRECTION;
+        }
+
+        private State columnDetection(Paper[,] papers)
+        {
+            return State.COLUMN_DETECTION;
+        }
+
+        private State steerToMove(Paper[,] papers)
+        {
+            return State.STEER_TO_MOVE;
+        }
+
+        private State steerAngleCorrection(Paper[,] papers)
+        {
+            return State.STEER_ANGLE_CORRECTION;
+        }
+
+        private State moveForward(Paper[,] papers)
+        {
+            return State.MOVE_FORWARD;
+        }
+
+        private State moveForwardCorrection(Paper[,] papers)
+        {
+            return State.MOVE_FORWARD_CORRECTION;
+        }
+
+        private State steerToDetect(Paper[,] papers)
+        {
+            return State.STEER_TO_DETECT;
         }
 
         private State calculateDigit(Paper[,] papers)
@@ -152,6 +236,30 @@ namespace VCCChallenge
                 {
                     case State.WAIT_FOR_RUN:
                         this.state = this.waitForRun(papers);
+                        break;
+                    case State.CHECK_DIRECTION:
+                        this.state = this.checkDirection(papers);
+                        break;
+                    case State.COLUMN_ANGLE_CORRECTION:
+                        this.state = this.columnAngleCorrection(papers);
+                        break;
+                    case State.COLUMN_DETECTION:
+                        this.state = this.columnDetection(papers);
+                        break;
+                    case State.STEER_TO_MOVE:
+                        this.state = this.steerToMove(papers);
+                        break;
+                    case State.STEER_ANGLE_CORRECTION:
+                        this.state = this.steerAngleCorrection(papers);
+                        break;
+                    case State.MOVE_FORWARD:
+                        this.state = this.moveForward(papers);
+                        break;
+                    case State.MOVE_FORWARD_CORRECTION:
+                        this.state = this.moveForwardCorrection(papers);
+                        break;
+                    case State.STEER_TO_DETECT:
+                        this.state = this.steerToDetect(papers);
                         break;
                     case State.CALCULATE_DIGIT:
                         this.state = this.calculateDigit(papers);

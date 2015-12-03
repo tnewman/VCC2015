@@ -76,6 +76,8 @@ namespace VCCChallenge
                 currentPaper.Color = paperColor;
                 currentPaper.XMidPoint = xMidPoint;
                 currentPaper.YMidPoint = yMidPoint;
+                currentPaper.ParentImageWidth = contourImage.Width;
+                currentPaper.ParentImageHeight = contourImage.Height;
             }
         }
     }
