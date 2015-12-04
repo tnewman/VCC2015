@@ -184,6 +184,7 @@ namespace VCCChallenge
         private State steerAngleCorrection(Paper[,] papers)
         {
             this.motor.turn3DegreesLeft();
+            this.motor.turn3DegreesLeft();
 
             return State.MOVE_FORWARD;
         }
