@@ -39,14 +39,17 @@ namespace VCCChallenge
 
         private const int COLUMN_COUNT = 5;
 
+        private const double COLUMN_ANGLE_LEFT_CORRECTION_THRESHOLD = 0.48;
+        private const double COLUMN_ANGLE_RIGHT_CORRECTION_THRESHOLD = 0.52;
+        private const double STEERING_ANGLE_LEFT_CORRECTION_THRESHOLD = 0.02;
+        private const double STEERING_ANGLE_RIGHT_CORRECTION_THRESHOLD = 0.10;
+
         private Motor motor = new Motor();
         private State state = State.WAIT_FOR_RUN;
         private IDigitDetectionCallback callback;
         private Direction direction;
         private int initialFrameCount = 0;
-
-        private int leftColumns = 0;
-        private int rightColumns = 0;
+        private bool stop = true;
         private PaperColor[,] digitsToMatch;
         private List<PaperColor[]> paperColumns;
 
@@ -77,12 +80,14 @@ namespace VCCChallenge
             this.initialFrameCount = 0;
             this.callback.DigitDetectionStarted();
             this.state = State.CHECK_DIRECTION;
+            this.stop = false;
         }
 
         public void Stop()
         {
             this.callback.DigitDetectionStopped();
             this.state = State.WAIT_FOR_RUN;
+            this.stop = true;
         }
 
         private State waitForRun(Paper[,] papers)
@@ -130,11 +135,11 @@ namespace VCCChallenge
         {
             Paper topCenterCellPaper = papers[0,1];
 
-            if(topCenterCellPaper.XMidPoint < topCenterCellPaper.ParentImageWidth * 0.48)
+            if(topCenterCellPaper.XMidPoint < topCenterCellPaper.ParentImageWidth * COLUMN_ANGLE_LEFT_CORRECTION_THRESHOLD)
             {
                 this.motor.turn3DegreesLeft();
             }
-            else if (topCenterCellPaper.XMidPoint > topCenterCellPaper.ParentImageWidth * 0.52)
+            else if (topCenterCellPaper.XMidPoint > topCenterCellPaper.ParentImageWidth * COLUMN_ANGLE_RIGHT_CORRECTION_THRESHOLD)
             {
                 this.motor.turn3DegreesRight();
             } else
@@ -173,7 +178,36 @@ namespace VCCChallenge
 
         private State steerAngleCorrection(Paper[,] papers)
         {
-            return State.STEER_ANGLE_CORRECTION;
+            Paper paper;
+
+            if (this.direction == Direction.LEFT)
+            {
+                paper = papers[0, 2];
+            }
+            else
+            {
+                paper = papers[0, 0];
+            }
+
+            if (paper.Color != PaperColor.UNKNOWN)
+            {
+                if (paper.XMidPoint < paper.ParentImageWidth * STEERING_ANGLE_LEFT_CORRECTION_THRESHOLD)
+                {
+                    this.motor.turn3DegreesLeft();
+                }
+                else if (paper.XMidPoint > paper.ParentImageWidth * STEERING_ANGLE_RIGHT_CORRECTION_THRESHOLD)
+                {
+                    this.motor.turn3DegreesRight();
+                }
+                else
+                {
+                    return State.MOVE_FORWARD;
+                }
+
+                return State.STEER_ANGLE_CORRECTION;
+            }
+
+            return State.MOVE_FORWARD;
         }
 
         private State moveForward(Paper[,] papers)
@@ -240,6 +274,11 @@ namespace VCCChallenge
 
         public void processDigitDetection(Paper[,] papers)
         {
+            if(this.stop)
+            {
+                this.state = State.WAIT_FOR_RUN;
+            }
+
             if (this.initialFrameCount < INITIAL_FRAMES_IGNORED)
             {
                 this.initialFrameCount++;
