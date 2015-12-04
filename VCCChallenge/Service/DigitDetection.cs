@@ -219,12 +219,21 @@ namespace VCCChallenge
 
         private State moveForwardCorrection(Paper[,] papers)
         {
-            return State.MOVE_FORWARD_CORRECTION;
+            return State.STEER_TO_DETECT;
         }
 
         private State steerToDetect(Paper[,] papers)
         {
-            return State.STEER_TO_DETECT;
+            if(this.direction == Direction.LEFT)
+            {
+                this.motor.turn90DegreesRight();
+            }
+            else
+            {
+                this.motor.turn90DegreesLeft();
+            }
+
+            return State.COLUMN_ANGLE_CORRECTION;
         }
 
         private State calculateDigit(Paper[,] papers)
