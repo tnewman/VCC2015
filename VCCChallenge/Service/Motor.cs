@@ -13,7 +13,7 @@ namespace VCCChallenge
     class Motor
     {
         private const int MOTOR_FORWARD_SECONDS = 1400;
-        private const int MOTOR_FORWARD_CORRECTION_SECONDS = 25;
+        private const int MOTOR_FORWARD_CORRECTION_SECONDS = 100;
         private const int DEGREE_3_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 30;
         private const int DEGREE_90_MOTOR_SECONDS = 1200;
         private const int SLEEP_AFTER_OPERATION_SECONDS = 250;

@@ -41,7 +41,7 @@ namespace VCCChallenge
 
         private const double COLUMN_ANGLE_LEFT_CORRECTION_THRESHOLD = 0.48;
         private const double COLUMN_ANGLE_RIGHT_CORRECTION_THRESHOLD = 0.52;
-        private const double FORWARD_CORRECTION_VERTICAL_THRESHOLD = 0.35;
+        private const double FORWARD_CORRECTION_VERTICAL_THRESHOLD = 0.30;
 
         private Motor motor = new Motor();
         private State state = State.WAIT_FOR_RUN;
@@ -185,7 +185,6 @@ namespace VCCChallenge
         private State steerAngleCorrection(Paper[,] papers)
         {
             this.motor.turn3DegreesLeft();
-            this.motor.turn3DegreesLeft();
 
             return State.MOVE_FORWARD;
         }
@@ -215,6 +214,8 @@ namespace VCCChallenge
                 if (paper.YMidPoint < paper.ParentImageHeight * FORWARD_CORRECTION_VERTICAL_THRESHOLD)
                 {
                     this.motor.driveForwardCorrection();
+
+                    return State.MOVE_FORWARD_CORRECTION;
                 }
             }
 
