@@ -177,7 +177,7 @@ namespace VCCChallenge
         }
 
         delegate void DigitDetectionCallback();
-        delegate void DigitDetectionCallbackSetDigit(int digitDetected);
+        delegate void DigitDetectionCallbackSetDigit(int digitDetected, PaperColor[] paperColors);
 
         public void DigitDetectionStarted()
         {
@@ -223,7 +223,7 @@ namespace VCCChallenge
             }
         }
 
-        public void DigitDetected(int digitDetected)
+        public void DigitDetected(int digitDetected, PaperColor[] paperColors)
         {
             if (this.InvokeRequired)
             {
@@ -231,7 +231,7 @@ namespace VCCChallenge
 
                 try
                 {
-                    this.Invoke(callback, new object[] { digitDetected });
+                    this.Invoke(callback, new object[] { digitDetected, paperColors });
                 }
                 catch (ObjectDisposedException)
                 {
@@ -241,6 +241,22 @@ namespace VCCChallenge
             else
             {
                 this.detectedDigitLbl.Text = digitDetected.ToString();
+
+                this.cell0Txt.Text = PaperColorUtils.PaperColorToString(paperColors[0]);
+                this.cell1Txt.Text = PaperColorUtils.PaperColorToString(paperColors[1]);
+                this.cell2Txt.Text = PaperColorUtils.PaperColorToString(paperColors[2]);
+                this.cell3Txt.Text = PaperColorUtils.PaperColorToString(paperColors[3]);
+                this.cell4Txt.Text = PaperColorUtils.PaperColorToString(paperColors[4]);
+                this.cell5Txt.Text = PaperColorUtils.PaperColorToString(paperColors[5]);
+                this.cell6Txt.Text = PaperColorUtils.PaperColorToString(paperColors[6]);
+                this.cell7Txt.Text = PaperColorUtils.PaperColorToString(paperColors[7]);
+                this.cell8Txt.Text = PaperColorUtils.PaperColorToString(paperColors[8]);
+                this.cell9Txt.Text = PaperColorUtils.PaperColorToString(paperColors[9]);
+                this.cell10Txt.Text = PaperColorUtils.PaperColorToString(paperColors[10]);
+                this.cell11Txt.Text = PaperColorUtils.PaperColorToString(paperColors[11]);
+                this.cell12Txt.Text = PaperColorUtils.PaperColorToString(paperColors[12]);
+                this.cell13Txt.Text = PaperColorUtils.PaperColorToString(paperColors[13]);
+                this.cell14Txt.Text = PaperColorUtils.PaperColorToString(paperColors[14]);
             }
         }
 

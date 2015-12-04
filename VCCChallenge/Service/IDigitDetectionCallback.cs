@@ -12,6 +12,6 @@ namespace VCCChallenge
     {
         void DigitDetectionStarted();
         void DigitDetectionStopped();
-        void DigitDetected(int digitDetected);
+        void DigitDetected(int digitDetected, PaperColor[] paperColors);
     }
 }

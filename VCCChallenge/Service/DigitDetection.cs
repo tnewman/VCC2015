@@ -243,13 +243,13 @@ namespace VCCChallenge
                 this.paperColumns.Reverse();
             }
 
-            PaperColor[] paperCells = new PaperColor[this.paperColumns.Count * 3];
+            PaperColor[] paperColors = new PaperColor[this.paperColumns.Count * 3];
 
             for (int i = 0; i < papers.GetLength(0); i++)
             {
                 for(int j = 0; j < papers.GetLength(1); j++)
                 {
-                    paperCells[i * papers.GetLength(0) + j] = this.paperColumns[i][j];
+                    paperColors[i * papers.GetLength(0) + j] = this.paperColumns[i][j];
                 }
             }
 
@@ -262,10 +262,10 @@ namespace VCCChallenge
 
                 for(int j = 0; j < this.digitsToMatch.GetLength(1); j++)
                 {
-                    if(paperCells[j] == PaperColor.UNKNOWN)
+                    if(paperColors[j] == PaperColor.UNKNOWN)
                     {
                         currentMatchCount++;
-                    } else if(paperCells[j] == this.digitsToMatch[i, j])
+                    } else if(paperColors[j] == this.digitsToMatch[i, j])
                     {
                         currentMatchCount++;
                     }
@@ -278,7 +278,7 @@ namespace VCCChallenge
                 }
             }
 
-            this.callback.DigitDetected(matchNumber);
+            this.callback.DigitDetected(matchNumber, paperColors);
 
             return State.WAIT_FOR_RUN;
         }

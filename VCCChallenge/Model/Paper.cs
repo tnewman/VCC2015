@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VCCChallenge
 {
-    class Paper
+    public class Paper
     {
         public Paper()
         {
