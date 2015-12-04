@@ -41,8 +41,6 @@ namespace VCCChallenge
 
         private const double COLUMN_ANGLE_LEFT_CORRECTION_THRESHOLD = 0.48;
         private const double COLUMN_ANGLE_RIGHT_CORRECTION_THRESHOLD = 0.52;
-        private const double STEERING_ANGLE_LEFT_CORRECTION_THRESHOLD = 0.02;
-        private const double STEERING_ANGLE_RIGHT_CORRECTION_THRESHOLD = 0.10;
 
         private Motor motor = new Motor();
         private State state = State.WAIT_FOR_RUN;
@@ -159,7 +157,14 @@ namespace VCCChallenge
 
             this.paperColumns.Add(paperColorColumn);
 
-            return State.STEER_TO_MOVE;
+            if (this.paperColumns.Count < COLUMN_COUNT)
+            {
+                return State.STEER_TO_MOVE;
+            }
+            else
+            {
+                return State.CALCULATE_DIGIT;
+            }
         }
 
         private State steerToMove(Paper[,] papers)
@@ -178,34 +183,7 @@ namespace VCCChallenge
 
         private State steerAngleCorrection(Paper[,] papers)
         {
-            Paper paper;
-
-            if (this.direction == Direction.LEFT)
-            {
-                paper = papers[0, 2];
-            }
-            else
-            {
-                paper = papers[0, 0];
-            }
-
-            if (paper.Color != PaperColor.UNKNOWN)
-            {
-                if (paper.XMidPoint < paper.ParentImageWidth * STEERING_ANGLE_LEFT_CORRECTION_THRESHOLD)
-                {
-                    this.motor.turn3DegreesLeft();
-                }
-                else if (paper.XMidPoint > paper.ParentImageWidth * STEERING_ANGLE_RIGHT_CORRECTION_THRESHOLD)
-                {
-                    this.motor.turn3DegreesRight();
-                }
-                else
-                {
-                    return State.MOVE_FORWARD;
-                }
-
-                return State.STEER_ANGLE_CORRECTION;
-            }
+            this.motor.turn3DegreesLeft();
 
             return State.MOVE_FORWARD;
         }
@@ -214,7 +192,7 @@ namespace VCCChallenge
         {
             this.motor.driveForward();
 
-            return State.MOVE_FORWARD;
+            return State.MOVE_FORWARD_CORRECTION;
         }
 
         private State moveForwardCorrection(Paper[,] papers)
@@ -243,7 +221,7 @@ namespace VCCChallenge
                 this.paperColumns.Reverse();
             }
 
-            PaperColor[] paperCells = new PaperColor[papers.Length];
+            PaperColor[] paperCells = new PaperColor[this.paperColumns.Count * 3];
 
             for (int i = 0; i < papers.GetLength(0); i++)
             {

@@ -28,8 +28,6 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
-
-            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
         public void turn90DegreesLeft()
@@ -42,8 +40,6 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
-
-            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
         public void turn90DegreesRight()
@@ -56,8 +52,6 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
-
-            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
         public void turn3DegreesLeft()
@@ -70,8 +64,6 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
-
-            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
 
         public void turn3DegreesRight()
@@ -84,8 +76,6 @@ namespace VCCChallenge
 
             motorController.stop();
             motorController.close();
-
-            Thread.Sleep(SLEEP_AFTER_OPERATION_SECONDS);
         }
     }
 }
