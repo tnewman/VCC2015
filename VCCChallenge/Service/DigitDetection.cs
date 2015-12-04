@@ -212,6 +212,8 @@ namespace VCCChallenge
 
         private State moveForward(Paper[,] papers)
         {
+            this.motor.driveForward();
+
             return State.MOVE_FORWARD;
         }
 
