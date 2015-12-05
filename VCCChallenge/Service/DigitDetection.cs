@@ -184,7 +184,22 @@ namespace VCCChallenge
 
         private State steerAngleCorrection(Paper[,] papers)
         {
-            this.motor.turn3DegreesLeft();
+            if (this.direction == Direction.LEFT)
+            {
+                if (papers[2, 2].Color != PaperColor.UNKNOWN)
+                {
+                    this.motor.turn3DegreesLeft();
+                    return State.STEER_ANGLE_CORRECTION;
+                }
+            }
+            else
+            {
+                if (papers[2, 0].Color != PaperColor.UNKNOWN)
+                {
+                    this.motor.turn3DegreesRight();
+                    return State.STEER_ANGLE_CORRECTION;
+                }
+            }
 
             return State.MOVE_FORWARD;
         }
