@@ -41,7 +41,7 @@ namespace VCCChallenge
 
         private const double COLUMN_ANGLE_LEFT_CORRECTION_THRESHOLD = 0.48;
         private const double COLUMN_ANGLE_RIGHT_CORRECTION_THRESHOLD = 0.52;
-        private const double FORWARD_CORRECTION_VERTICAL_THRESHOLD = 0.30;
+        private const double FORWARD_CORRECTION_VERTICAL_THRESHOLD = 0.33;
 
         private Motor motor = new Motor();
         private State state = State.WAIT_FOR_RUN;
@@ -260,9 +260,9 @@ namespace VCCChallenge
 
             PaperColor[] paperColors = new PaperColor[this.paperColumns.Count * 3];
 
-            for (int i = 0; i < papers.GetLength(0); i++)
+            for (int i = 0; i < paperColumns.Count; i++)
             {
-                for(int j = 0; j < papers.GetLength(1); j++)
+                for(int j = 0; j < 3; j++)
                 {
                     paperColors[i * papers.GetLength(0) + j] = this.paperColumns[i][j];
                 }
