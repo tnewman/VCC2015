@@ -15,7 +15,7 @@ namespace VCCChallenge
     {
         private const double LEFT_WIDTH_THRESHOLD = 0.35;
         private const double RIGHT_WIDTH_THRESHOLD = 0.65;
-        private const double TOP_HEIGHT_THRESHOLD = 0.20;
+        private const double TOP_HEIGHT_THRESHOLD = 0.15;
         private const double BOTTOM_HEIGHT_THRESHOLD = 0.50;
 
         public Paper[,] detectColumnPaperColors(Image<Bgr, byte> contourImage, List<Contour<Point>> yellowContours, List<Contour<Point>> greenContours)

@@ -15,7 +15,7 @@ namespace VCCChallenge
         private const int MOTOR_FORWARD_SECONDS = 1500;
         private const int MOTOR_FORWARD_CORRECTION_SECONDS = 50;
         private const int DEGREE_3_MOTOR_SECONDS = DEGREE_90_MOTOR_SECONDS / 30;
-        private const int DEGREE_90_MOTOR_SECONDS = 1150;
+        private const int DEGREE_90_MOTOR_SECONDS = 1175;
         private const int SLEEP_AFTER_OPERATION_SECONDS = 250;
         private const string PORT = "COM9";
 
