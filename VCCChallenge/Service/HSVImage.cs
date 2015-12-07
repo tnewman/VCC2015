@@ -3,15 +3,22 @@
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VCCChallenge
 {
+    /// <summary>
+    /// Hue/Saturation/Value Image Processing
+    /// </summary>
     class HsvImage
     {
+        /// <summary>
+        /// Create a combined Hue/Saturation/Value image from an existing 
+        /// image using supplied thresholds for hue, saturation and value.
+        /// </summary>
+        /// <param name="image">Image to convert to HSV.</param>
+        /// <param name="thresholds">Thresholds for hue, saturation and value</param>
+        /// <returns>HSV image along with the component images for hue, 
+        /// saturation and value.</returns>
         public HsvFilter generateCombinedHSV(Image<Bgr, byte> image, BinaryThresholds thresholds)
         {
             Image<Hsv, Byte> hsvFrame = image.Convert<Hsv, Byte>();

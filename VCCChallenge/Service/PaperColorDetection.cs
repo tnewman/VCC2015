@@ -2,15 +2,15 @@
 
 using Emgu.CV;
 using Emgu.CV.Structure;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VCCChallenge
 {
+    /// <summary>
+    /// Create a 3X3 grid of paper colors using a source image and the 
+    /// contours for each paper color.
+    /// </summary>
     class PaperColorDetection
     {
         private const double LEFT_WIDTH_THRESHOLD = 0.35;
@@ -18,6 +18,14 @@ namespace VCCChallenge
         private const double TOP_HEIGHT_THRESHOLD = 0.15;
         private const double BOTTOM_HEIGHT_THRESHOLD = 0.50;
 
+        /// <summary>
+        /// Create a 3X3 grid of paper colors using a source image and the 
+        /// contours for each paper color.
+        /// </summary>
+        /// <param name="contourImage">Source image.</param>
+        /// <param name="yellowContours">Yellow paper contours.</param>
+        /// <param name="greenContours">Green paper contours.</param>
+        /// <returns></returns>
         public Paper[,] detectColumnPaperColors(Image<Bgr, byte> contourImage, List<Contour<Point>> yellowContours, List<Contour<Point>> greenContours)
         {
             Paper[,] papers = new Paper[3,3];
@@ -37,6 +45,13 @@ namespace VCCChallenge
             return papers;
         }
 
+        /// <summary>
+        /// Adds paper colors from a contour into the grid.
+        /// </summary>
+        /// <param name="contourImage">Source image.</param>
+        /// <param name="papers">Grid to add paper colors to.</param>
+        /// <param name="paperContours">Contours to add to grid.</param>
+        /// <param name="paperColor">Color of paper to add to grid.</param>
         private void detectColumns(Image<Bgr, byte> contourImage, Paper[,] papers, List<Contour<Point>> paperContours, PaperColor paperColor)
         {
             foreach (Contour<Point> paperContour in paperContours)

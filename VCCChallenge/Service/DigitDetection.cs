@@ -1,30 +1,79 @@
 ﻿// Copyright 2015 Thomas Newman
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace VCCChallenge
 {
+    /// <summary>
+    /// State Machine for Digit Detection. The state machine handles 
+    /// processing a 3X3 grid of papers, moving the robot from column 
+    /// to column, providing corrective movements and calculating the 
+    /// digit.
+    /// </summary>
     class DigitDetection
     {
+        /// <summary>
+        /// Digit Detection States
+        /// </summary>
         enum State
         {
+            /// <summary>
+            /// Default state while the robot is waiting for instructions.
+            /// </summary>
             WAIT_FOR_RUN,
+
+            /// <summary>
+            /// Check what side of the robot the paper is on.
+            /// </summary>
             CHECK_DIRECTION,
+
+            /// <summary>
+            /// Provide corrective turns before viewing the current column.
+            /// </summary>
             COLUMN_ANGLE_CORRECTION,
+
+            /// <summary>
+            /// Detect paper in the current column.
+            /// </summary>
             COLUMN_DETECTION,
+
+            /// <summary>
+            /// Steer to move to the next column.
+            /// </summary>
             STEER_TO_MOVE,
+
+            /// <summary>
+            /// Provide corrective turns before moving in case the robot 
+            /// is not perpendicular to the paper grid.
+            /// </summary>
             STEER_ANGLE_CORRECTION,
+
+            /// <summary>
+            /// Move forward to the next column.
+            /// </summary>
             MOVE_FORWARD,
+
+            /// <summary>
+            /// Move forward more if the robot will not be centered with 
+            /// the column.
+            /// </summary>
             MOVE_FORWARD_CORRECTION,
+
+            /// <summary>
+            /// Steer to view the column.
+            /// </summary>
             STEER_TO_DETECT,
+
+            /// <summary>
+            /// Calculate the digit based on the paper locations and colors 
+            /// collected.
+            /// </summary>
             CALCULATE_DIGIT
         }
 
+        /// <summary>
+        /// The side of the robot the paper is on when the robot starts.
+        /// </summary>
         public enum Direction
         {
             NONE,
@@ -52,12 +101,21 @@ namespace VCCChallenge
         private PaperColor[,] digitsToMatch;
         private List<PaperColor[]> paperColumns;
 
+        /// <summary>
+        /// Callback to send status to the UI.
+        /// </summary>
+        /// <param name="callback">Callback object.</param>
         public DigitDetection(IDigitDetectionCallback callback)
         {
             this.callback = callback;
             this.setDigitsToMatch();
         }
 
+        /// <summary>
+        /// Patterns for each possible digit, in order. For example, 
+        /// element 0 represents the digit 0, element 1 represents 
+        /// the digit 1 and soforth.
+        /// </summary>
         private void setDigitsToMatch()
         {
             this.digitsToMatch = new PaperColor[,]{
@@ -74,6 +132,9 @@ namespace VCCChallenge
             };
         }
 
+        /// <summary>
+        /// Start digit processing and robot movement.
+        /// </summary>
         public void Start()
         {
             this.initialFrameCount = 0;
@@ -82,6 +143,9 @@ namespace VCCChallenge
             this.stop = false;
         }
 
+        /// <summary>
+        /// Immediately stop digit processing and robot movement.
+        /// </summary>
         public void Stop()
         {
             this.callback.DigitDetectionStopped();
@@ -89,6 +153,13 @@ namespace VCCChallenge
             this.stop = true;
         }
 
+
+        /// <summary>
+        /// Do nothing.
+        /// See <see cref="State.WAIT_FOR_RUN"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns>Next State</returns>
         private State waitForRun(Paper[,] papers)
         {
             Stop();
@@ -96,6 +167,13 @@ namespace VCCChallenge
             return State.WAIT_FOR_RUN;
         }
 
+        /// <summary>
+        /// Check what side of the robot the columns are on and 
+        /// sets the direction used throughout the state machine.
+        /// See <see cref="State.CHECK_DIRECTION"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns><see cref="State.COLUMN_ANGLE_CORRECTION"/></returns>
         private State checkDirection(Paper[,] papers)
         {
             int leftPaperCount = 0;
@@ -130,6 +208,14 @@ namespace VCCChallenge
             return State.COLUMN_ANGLE_CORRECTION;
         }
 
+        /// <summary>
+        /// Checks of the column is centered in the robot's field of 
+        /// vision and makes corrective turns if it isn't.
+        /// See <see cref="State.COLUMN_ANGLE_CORRECTION"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns><see cref="State.COLUMN_DETECTION"/> if the column 
+        /// is centered, otherwise <see cref="State.COLUMN_DETECTION"/>.</returns>
         private State columnAngleCorrection(Paper[,] papers)
         {
             Paper topCenterCellPaper = papers[0,1];
@@ -149,11 +235,25 @@ namespace VCCChallenge
             return State.COLUMN_ANGLE_CORRECTION;
         }
 
+        /// <summary>
+        /// Detects and stores the center columns in the current paper grid.
+        /// See <see cref="State.COLUMN_DETECTION"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns><see cref="State.STEER_TO_MOVE"/> if there are more 
+        /// columns. <see cref="State.CALCULATE_DIGIT"/> if all columns 
+        /// have now been checked.</returns>
         private State columnDetection(Paper[,] papers)
         {
             PaperColor[] paperColorColumn = new PaperColor[3];
+
+            // Top Column
             paperColorColumn[0] = papers[0, 1].Color;
+
+            // Middle Column
             paperColorColumn[1] = papers[1, 1].Color;
+
+            // Bottom Column
             paperColorColumn[2] = papers[2, 1].Color;
 
             this.paperColumns.Add(paperColorColumn);
@@ -168,6 +268,16 @@ namespace VCCChallenge
             }
         }
 
+        /// <summary>
+        /// Steer to move to the next column.
+        /// See <see cref="State.STEER_TO_MOVE"/>.
+        /// </summary>
+        /// <remarks>This always applies a static 
+        /// steering correction when moving left because the robot would 
+        /// not turn adequately under testing. This should be revisited 
+        /// for specific applications.</remarks>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns><see cref="State.STEER_ANGLE_CORRECTION"/></returns>
         private State steerToMove(Paper[,] papers)
         {
             if (this.direction == Direction.LEFT)
@@ -184,6 +294,15 @@ namespace VCCChallenge
             return State.STEER_ANGLE_CORRECTION;
         }
 
+        /// <summary>
+        /// Perform a corrective turn, so the robot drives perpendicular 
+        /// to the paper.
+        /// See <see cref="State.STEER_ANGLE_CORRECTION"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns><see cref="State.STEER_ANGLE_CORRECTION"/> if a 
+        /// correction is made. <see cref="State.MOVE_FORWARD"/> if 
+        /// no correction was made.</returns>
         private State steerAngleCorrection(Paper[,] papers)
         {
             if (this.direction == Direction.LEFT)
@@ -206,6 +325,12 @@ namespace VCCChallenge
             return State.MOVE_FORWARD;
         }
 
+        /// <summary>
+        /// Drives forward to the next column.
+        /// See <see cref="State.MOVE_FORWARD"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns><see cref="State.MOVE_FORWARD_CORRECTION"/></returns>
         private State moveForward(Paper[,] papers)
         {
             this.motor.driveForward();
@@ -213,6 +338,15 @@ namespace VCCChallenge
             return State.MOVE_FORWARD_CORRECTION;
         }
 
+        /// <summary>
+        /// Drives forward slightly if the robot did not travel 
+        /// an adequate distance.
+        /// See <see cref="State.MOVE_FORWARD_CORRECTION"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns><see cref="State.MOVE_FORWARD_CORRECTION"/> 
+        /// if a correction is made, otherwise 
+        /// <see cref="State.STEER_TO_DETECT"/></returns>
         private State moveForwardCorrection(Paper[,] papers)
         {
             Paper paper;
@@ -239,6 +373,12 @@ namespace VCCChallenge
             return State.STEER_TO_DETECT;
         }
 
+        /// <summary>
+        /// Steer to view the papers in a column.
+        /// See <see cref="State.STEER_TO_DETECT"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns><see cref="State.COLUMN_ANGLE_CORRECTION"/></returns>
         private State steerToDetect(Paper[,] papers)
         {
             if(this.direction == Direction.LEFT)
@@ -253,6 +393,14 @@ namespace VCCChallenge
             return State.COLUMN_ANGLE_CORRECTION;
         }
 
+        /// <summary>
+        /// Calculates the digit represented by all of the 
+        /// paper color columns. The detected digit is sent 
+        /// to the UI using 
+        /// <see cref="IDigitDetectionCallback.DigitDetected(int, PaperColor[])"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns><see cref="State.WAIT_FOR_RUN"/></returns>
         private State calculateDigit(Paper[,] papers)
         {
             if(this.direction == Direction.LEFT)
@@ -260,6 +408,7 @@ namespace VCCChallenge
                 this.paperColumns.Reverse();
             }
 
+            // Convert paper color columns to an array
             PaperColor[] paperColors = new PaperColor[this.paperColumns.Count * 3];
 
             for (int i = 0; i < paperColumns.Count; i++)
@@ -273,6 +422,12 @@ namespace VCCChallenge
             int matchNumber = 0;
             int matchCount = 0;
 
+            // Find the digit that is the closest match. The idea behind 
+            // this algorithm is that the closest match is the digit with 
+            // the most papers in common with the digit represented by 
+            // the paper viewed by the robot. In the event that the robot 
+            // is unable to read a sheet of paper, this algorithm assumes 
+            // that it would have been a match.
             for(int i = 0; i < this.digitsToMatch.GetLength(0); i++)
             {
                 int currentMatchCount = 0;
@@ -300,6 +455,10 @@ namespace VCCChallenge
             return State.WAIT_FOR_RUN;
         }
 
+        /// <summary>
+        /// Run the state machine for the current grid of papers detected.
+        /// </summary>
+        /// <param name="papers">Current grid of papers detected.</param>
         public void processDigitDetection(Paper[,] papers)
         {
             if(this.stop)

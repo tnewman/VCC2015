@@ -5,6 +5,10 @@ using Emgu.CV.Structure;
 
 namespace VCCChallenge
 {
+    /// <summary>
+    /// Stores a Combined HSV Image and its component images 
+    /// for Hue, Saturation and Value.
+    /// </summary>
     class HsvFilter
     {
         public Image<Gray, byte> HueFilter { get; set; }

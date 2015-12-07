@@ -7,10 +7,18 @@ using System.Drawing;
 
 namespace VCCChallenge
 {
+    /// <summary>
+    /// Extract paper contours from an HSV image.
+    /// </summary>
     class PaperContourExtraction
     {
         private const double CONTOUR_AREA_PERCENTAGE_THRESHOLD = 0.005;
 
+        /// <summary>
+        /// Extract paper contours from an HSV image.
+        /// </summary>
+        /// <param name="binaryImage">HSV image to extract paper contours from.</param>
+        /// <returns>Paper contours extracted.</returns>
         public List<Contour<Point>> extractPaperContours(Image<Gray, byte> binaryImage)
         {
             List<Contour<Point>> paperContours = new List<Contour<Point>>();

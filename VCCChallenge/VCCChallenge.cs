@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace VCCChallenge
 {
+    /// <summary>
+    /// 2015 VCC Challenge UI
+    /// </summary>
     public partial class VCCChallenge : Form, IDigitDetectionCallback
     {
         private Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -22,12 +25,20 @@ namespace VCCChallenge
         private Motor motor = new Motor();
         private DigitDetection digitDetection;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public VCCChallenge()
         {
             InitializeComponent();
             this.digitDetection = new DigitDetection(this);
         }
 
+        /// <summary>
+        /// Initializes the form, including loading slider values from XML.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void VCCChallenge_Load(object sender, EventArgs e)
         {
             this.loadThresholds();
@@ -38,6 +49,9 @@ namespace VCCChallenge
             this.capture.Start();
         }
 
+        /// <summary>
+        /// Load threshold slider values from XML.
+        /// </summary>
         private void loadThresholds()
         {
             this.yellowThresholds.HueMin = readThresholdOrDefault("YellowHueMin");
@@ -55,6 +69,12 @@ namespace VCCChallenge
             this.greenThresholds.ValMax = readThresholdOrDefault("GreenValMax");
         }
 
+        /// <summary>
+        /// Read a slider threshold from XML, and supply a default value of 0 if 
+        /// the slider value could not be read from XML.
+        /// </summary>
+        /// <param name="key">Key for slider threshold to read.</param>
+        /// <returns>Slider threshold value.</returns>
         private int readThresholdOrDefault(string key)
         {
             int result = 0;
@@ -67,6 +87,9 @@ namespace VCCChallenge
             return result;
         }
 
+        /// <summary>
+        /// Sets all of the trackbars to the threshold values read from XML.
+        /// </summary>
         private void setTrackbarsToThresholds()
         {
             this.yellowMinHueTrack.Value = this.yellowThresholds.HueMin;
@@ -84,6 +107,9 @@ namespace VCCChallenge
             this.greenMaxValTrack.Value = this.greenThresholds.ValMax;
         }
 
+        /// <summary>
+        /// Sets all of the current trackbar threshold values to XML.
+        /// </summary>
         private void saveThresholds()
         {
             this.saveConfigValue(this.config.AppSettings, "YellowHueMin", this.yellowThresholds.HueMin.ToString());
@@ -103,6 +129,12 @@ namespace VCCChallenge
             config.Save();
         }
 
+        /// <summary>
+        /// Saves a threshold vlaue to XML.
+        /// </summary>
+        /// <param name="settingsSection">AppSettings to use for saving to XML.</param>
+        /// <param name="key">Key to use when saving this trackbar value to XML.</param>
+        /// <param name="value">Value to save to XML.</param>
         private void saveConfigValue(AppSettingsSection settingsSection, string key, string value)
         {
             if(settingsSection.Settings[key] == null)
@@ -114,6 +146,12 @@ namespace VCCChallenge
             }
         }
 
+        /// <summary>
+        /// Invoked when a frame is read from the camera. Performs image processing 
+        /// for each frame.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void DisplayCaptured(object sender, EventArgs e)
         {
             Image<Bgr, byte> capturedImage = this.capture.RetrieveBgrFrame();
@@ -147,6 +185,10 @@ namespace VCCChallenge
 
         delegate void DisplayPaperCallback(Paper[,] papers);
 
+        /// <summary>
+        /// Display the current grid of paper colors on the UI.
+        /// </summary>
+        /// <param name="papers">Current paper grid.</param>
         private void displayPapers(Paper[,] papers)
         {
             if (this.InvokeRequired)
@@ -179,6 +221,10 @@ namespace VCCChallenge
         delegate void DigitDetectionCallback();
         delegate void DigitDetectionCallbackSetDigit(int digitDetected, PaperColor[] paperColors);
 
+        /// <summary>
+        /// Disable the start button and enable the stop button when digit 
+        /// detection is started.
+        /// </summary>
         public void DigitDetectionStarted()
         {
             if (this.InvokeRequired)
@@ -201,6 +247,10 @@ namespace VCCChallenge
             }
         }
 
+        /// <summary>
+        /// Enable the start button and disable the stop button when digit 
+        /// detection is stopped.
+        /// </summary>
         public void DigitDetectionStopped()
         {
             if (this.InvokeRequired)
@@ -223,6 +273,11 @@ namespace VCCChallenge
             }
         }
 
+        /// <summary>
+        /// Display the detected digit and coloumns of paper colors on the UI.
+        /// </summary>
+        /// <param name="digitDetected">Detected Digit</param>
+        /// <param name="paperColors">All Paper Colors Detected</param>
         public void DigitDetected(int digitDetected, PaperColor[] paperColors)
         {
             if (this.InvokeRequired)
@@ -260,6 +315,11 @@ namespace VCCChallenge
             }
         }
 
+        /// <summary>
+        /// Display all HSV filters.
+        /// </summary>
+        /// <param name="yellowFilter">Yellow HSV Filters to display.</param>
+        /// <param name="greenFilter">Green HSV Filters to display.</param>
         private void displayFilters(HsvFilter yellowFilter, HsvFilter greenFilter)
         {
             this.YellowHueImgBox.Image = yellowFilter.HueFilter.Resize(this.YellowHueImgBox.Width, this.YellowHueImgBox.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
@@ -275,6 +335,11 @@ namespace VCCChallenge
             this.GreenComImgBox.Image = greenFilter.CombinedFilter.Resize(this.GreenComImgBox.Width, this.GreenComImgBox.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
         }
 
+        /// <summary>
+        /// Trackbar Event for Minimum Yellow Hue.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void yellowMinHueTrack_Scroll(object sender, EventArgs e)
         {
             if (this.yellowMinHueTrack.Value >= this.yellowMaxHueTrack.Value)
@@ -286,6 +351,11 @@ namespace VCCChallenge
             this.yellowThresholds.HueMin = this.yellowMinHueTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Maximum Yellow Hue.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void yellowMaxHueTrack_Scroll(object sender, EventArgs e)
         {
             if (this.yellowMaxHueTrack.Value <= this.yellowMinHueTrack.Value)
@@ -297,6 +367,11 @@ namespace VCCChallenge
             this.yellowThresholds.HueMax = this.yellowMaxHueTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Minimum Yellow Saturation.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void yellowMinSatTrack_Scroll(object sender, EventArgs e)
         {
             if (this.yellowMinSatTrack.Value >= this.yellowMaxSatTrack.Value)
@@ -308,6 +383,11 @@ namespace VCCChallenge
             this.yellowThresholds.SatMin = this.yellowMinSatTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Maximum Yellow Saturation.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void yellowMaxSatTrack_Scroll(object sender, EventArgs e)
         {
             if (this.yellowMaxSatTrack.Value <= this.yellowMinSatTrack.Value)
@@ -319,6 +399,11 @@ namespace VCCChallenge
             this.yellowThresholds.SatMax = this.yellowMaxSatTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Minimum Yellow Value.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void yellowMinValTrack_Scroll(object sender, EventArgs e)
         {
             if (this.yellowMinValTrack.Value >= this.yellowMaxValTrack.Value)
@@ -330,6 +415,11 @@ namespace VCCChallenge
             this.yellowThresholds.ValMin = this.yellowMinValTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Maximum Yellow Value.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void yellowMaxValTrack_Scroll(object sender, EventArgs e)
         {
             if (this.yellowMaxValTrack.Value <= this.yellowMinValTrack.Value)
@@ -341,6 +431,11 @@ namespace VCCChallenge
             this.yellowThresholds.ValMax = this.yellowMaxValTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Minimum Green Hue.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void greenMinHueTrack_Scroll(object sender, EventArgs e)
         {
             if (this.greenMinHueTrack.Value >= this.greenMaxHueTrack.Value)
@@ -352,6 +447,11 @@ namespace VCCChallenge
             this.greenThresholds.HueMin = this.greenMinHueTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Maximum Green Hue.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void greenMaxHueTrack_Scroll(object sender, EventArgs e)
         {
             if (this.greenMaxHueTrack.Value <= this.greenMinHueTrack.Value)
@@ -363,6 +463,11 @@ namespace VCCChallenge
             this.greenThresholds.HueMax = this.greenMaxHueTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Minimum Green Saturation.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void greenMinSatTrack_Scroll(object sender, EventArgs e)
         {
             if (this.greenMinSatTrack.Value >= this.greenMaxSatTrack.Value)
@@ -374,6 +479,11 @@ namespace VCCChallenge
             this.greenThresholds.SatMin = this.greenMinSatTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Maximum Green Saturation.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void greenMaxSatTrack_Scroll(object sender, EventArgs e)
         {
             if (this.greenMaxSatTrack.Value <= this.greenMinSatTrack.Value)
@@ -385,6 +495,11 @@ namespace VCCChallenge
             this.greenThresholds.SatMax = this.greenMaxSatTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Minimum Green Value.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void greenMinValTrack_Scroll(object sender, EventArgs e)
         {
             if (this.greenMinValTrack.Value >= this.greenMaxValTrack.Value)
@@ -396,6 +511,11 @@ namespace VCCChallenge
             this.greenThresholds.ValMin = this.greenMinValTrack.Value;
         }
 
+        /// <summary>
+        /// Trackbar Event for Maximum Green Value.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void greenMaxValTrack_Scroll(object sender, EventArgs e)
         {
             if (this.greenMaxValTrack.Value <= this.greenMinValTrack.Value)
@@ -407,6 +527,12 @@ namespace VCCChallenge
             this.greenThresholds.ValMax = this.greenMaxValTrack.Value;
         }
 
+        /// <summary>
+        /// Stop capturing and persist threshold values to XML when the form 
+        /// closes.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void VCCChallenge_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.capture.Stop();
@@ -415,36 +541,71 @@ namespace VCCChallenge
             this.saveThresholds();
         }
 
+        /// <summary>
+        /// Test Forward Movement button click.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void testForwardBtn_Click(object sender, EventArgs e)
         {
             this.motor.driveForward();
         }
 
+        /// <summary>
+        /// Test Steer Left 90 Degrees button click.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void testSteerLeft90Btn_Click(object sender, EventArgs e)
         {
             this.motor.turn90DegreesLeft();
         }
 
+        /// <summary>
+        /// Test Steer Right 90 Degrees button click.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void testSteerRight90Btn_Click(object sender, EventArgs e)
         {
             this.motor.turn90DegreesRight();
         }
 
+        /// <summary>
+        /// Test Steer Left 3 Degrees button click.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void testSteerLeft3Btn_Click(object sender, EventArgs e)
         {
             this.motor.turn3DegreesLeft();
         }
 
+        /// <summary>
+        /// Test Steer Right 3 Degrees button click.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void testSteerRight3Btn_Click(object sender, EventArgs e)
         {
             this.motor.turn3DegreesRight();
         }
 
+        /// <summary>
+        /// Start Digit Detection button click.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void startDetectBtn_Click(object sender, EventArgs e)
         {
             this.digitDetection.Start();
         }
 
+        /// <summary>
+        /// Stop Digit Detection button click.
+        /// </summary>
+        /// <param name="sender">Not Used</param>
+        /// <param name="e">Not Used</param>
         private void stopDetectBtn_Click(object sender, EventArgs e)
         {
             this.digitDetection.Stop();

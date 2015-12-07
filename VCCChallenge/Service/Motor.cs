@@ -1,23 +1,21 @@
 ﻿// Copyright 2015 Thomas Newman
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LoCoMoCo;
 using System.Threading;
 
 namespace VCCChallenge
 {
     /// <summary>
     /// Provides an interface to the L2 Bot LoCoMoCo by abstracting motor commands into 
-    /// commands that make sense for the 2015 VCC problem domain. It is important to note 
+    /// commands that make sense for the 2015 VCC problem domain.
+    /// </summary>
+    /// <remarks>
+    /// It is important to note 
     /// that due to a lack of motor encoders, all rotation and distance commands are 
     /// approximate. Several correction commands are provided to allow the L2 Bot's positioning 
     /// to be corrected if it has under-steered or under-rotated. Constants for steering and 
-    /// driving were determined by experimentation with a specific robot.
-    /// </summary>
+    /// driving were determined by experimentation with a specific robot. This will need to be 
+    /// changed for each application.
+    /// </remarks>
     class Motor
     {
         private const int MOTOR_FORWARD_SECONDS = 1500;

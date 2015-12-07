@@ -1,5 +1,6 @@
 ﻿// Copyright 2015 Lawrence Technological University
 // Provided as part of MCS5403 Robotics Programming
+// XML comments added by Thomas Newman
 
 using System;
 using System.IO.Ports;
