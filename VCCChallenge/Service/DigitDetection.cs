@@ -1,5 +1,6 @@
 ﻿// Copyright 2015 Thomas Newman
 
+using System;
 using System.Collections.Generic;
 
 namespace VCCChallenge
@@ -68,7 +69,12 @@ namespace VCCChallenge
             /// Calculate the digit based on the paper locations and colors 
             /// collected.
             /// </summary>
-            CALCULATE_DIGIT
+            CALCULATE_DIGIT,
+
+            /// <summary>
+            /// Steer 720 degrees to signal completion.
+            /// </summary>
+            STEER_720_DEGREES
         }
 
         /// <summary>
@@ -400,7 +406,7 @@ namespace VCCChallenge
         /// <see cref="IDigitDetectionCallback.DigitDetected(int, PaperColor[])"/>.
         /// </summary>
         /// <param name="papers">Current Paper Grid</param>
-        /// <returns><see cref="State.WAIT_FOR_RUN"/></returns>
+        /// <returns><see cref="State.STEER_720_DEGREES"/></returns>
         private State calculateDigit(Paper[,] papers)
         {
             if(this.direction == Direction.LEFT)
@@ -451,6 +457,24 @@ namespace VCCChallenge
             }
 
             this.callback.DigitDetected(matchNumber, paperColors);
+
+            return State.STEER_720_DEGREES;
+        }
+
+        /// <summary>
+        /// Steer 720 Degrees to indicate that the digit has been 
+        /// detected.
+        /// See <see cref="State.WAIT_FOR_RUN"/>.
+        /// </summary>
+        /// <param name="papers">Current Paper Grid</param>
+        /// <returns></returns>
+        private State steer720Degrees(Paper[,] papers)
+        {
+            // 8 90 degree turns is 720 degrees
+            for(int i = 0; i < 8; i++)
+            {
+                this.motor.turn90DegreesRight();
+            }
 
             return State.WAIT_FOR_RUN;
         }
@@ -505,6 +529,9 @@ namespace VCCChallenge
                         break;
                     case State.CALCULATE_DIGIT:
                         this.state = this.calculateDigit(papers);
+                        break;
+                    case State.STEER_720_DEGREES:
+                        this.state = this.steer720Degrees(papers);
                         break;
                     default:
                         this.state = this.waitForRun(papers);
