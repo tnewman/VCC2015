@@ -334,6 +334,8 @@ namespace VCCChallenge
         /// Drives forward to the next column.
         /// See <see cref="State.MOVE_FORWARD"/>.
         /// </summary>
+        /// <remarks>A static correction is always added when the robot is 
+        /// moving right to compensate for uneven motor speeds.</remarks>
         /// <param name="papers">Current Paper Grid</param>
         /// <returns><see cref="State.MOVE_FORWARD_CORRECTION"/></returns>
         private State moveForward(Paper[,] papers)
