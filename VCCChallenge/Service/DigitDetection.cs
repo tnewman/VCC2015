@@ -96,7 +96,7 @@ namespace VCCChallenge
 
         private const double COLUMN_ANGLE_LEFT_CORRECTION_THRESHOLD = 0.48;
         private const double COLUMN_ANGLE_RIGHT_CORRECTION_THRESHOLD = 0.52;
-        private const double FORWARD_CORRECTION_VERTICAL_THRESHOLD = 0.30;
+        private const double FORWARD_CORRECTION_VERTICAL_THRESHOLD = 0.29;
 
         private Motor motor = new Motor();
         private State state = State.WAIT_FOR_RUN;
@@ -290,7 +290,6 @@ namespace VCCChallenge
             {
                 this.motor.turn90DegreesLeft();
                 this.motor.turn3DegreesLeft();
-                this.motor.turn3DegreesLeft();
             }
             else
             {
@@ -340,6 +339,13 @@ namespace VCCChallenge
         private State moveForward(Paper[,] papers)
         {
             this.motor.driveForward();
+
+            if (this.direction == Direction.RIGHT)
+            {
+                this.motor.driveForwardCorrection();
+                this.motor.driveForwardCorrection();
+                this.motor.driveForwardCorrection();
+            }
 
             return State.MOVE_FORWARD_CORRECTION;
         }
@@ -409,7 +415,17 @@ namespace VCCChallenge
         /// <returns><see cref="State.STEER_720_DEGREES"/></returns>
         private State calculateDigit(Paper[,] papers)
         {
-            if(this.direction == Direction.LEFT)
+            // The columns are read top to bottom; however, the digit needs to 
+            // be  bottom to top, which translate into left to right when the 
+            // digit is compared.
+            for (int i = 0; i < this.paperColumns.Count; i++)
+            {
+                PaperColor temp = this.paperColumns[i][0];
+                this.paperColumns[i][0] = this.paperColumns[i][2];
+                this.paperColumns[i][2] = temp;
+            }
+
+            if (this.direction == Direction.LEFT)
             {
                 this.paperColumns.Reverse();
             }
