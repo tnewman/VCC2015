@@ -363,6 +363,7 @@ namespace VCCChallenge
         /// <see cref="State.STEER_TO_DETECT"/></returns>
         private State moveForwardCorrection(Paper[,] papers)
         {
+            /*
             Paper paper;
 
             if (this.direction == Direction.LEFT)
@@ -383,6 +384,7 @@ namespace VCCChallenge
                     return State.MOVE_FORWARD_CORRECTION;
                 }
             }
+             */
 
             return State.STEER_TO_DETECT;
         }
